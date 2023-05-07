@@ -47,9 +47,18 @@ export function Home() {
           id: Date.now() + index,
           parcela: parcela + 1,
           value: data.value / parseInt(data.installments),
-          date: new Date(data.dueDate).setMonth(
-            new Date(data.dueDate).getMonth() + parcela + 1
-          ),
+          date:
+            //se for a primeira parcela, a data é a data de vencimento se não, é o próximo mês
+            index === 0
+              ? data.dueDate
+              : format(
+                  new Date(
+                    new Date(data.dueDate).setMonth(
+                      new Date(data.dueDate).getMonth() + index
+                    )
+                  ),
+                  "yyyy-MM-dd"
+                ),
         })
       ),
     };

@@ -80,7 +80,7 @@ export function Modal({ divida }) {
                 <Text as="h2">{index + 1}ª parcela</Text>
                 <Text as="h2">{formatPrice(parcela.value)}</Text>
                 <Text as="h2">
-                  {format(new Date(parcela.date), "dd 'de' MMMM ", {
+                  {format(new Date(parcela.date), "dd 'de' MMM yyyy", {
                     locale: ptBR,
                   })}
                 </Text>
