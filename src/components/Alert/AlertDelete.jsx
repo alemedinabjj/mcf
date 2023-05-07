@@ -19,6 +19,7 @@ export function AlertDelete({ handleDeleteTask, divida }) {
 
   function handleDelete() {
     handleDeleteTask();
+    onClose();
   }
 
   return (
