@@ -19,6 +19,8 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { formatPrice } from "../utils/formatPrice";
 import { Modal } from "../components/Modal";
+import { Header } from "../components/Header";
+import { Card } from "../components/Card";
 
 export function Home() {
   const { user, handleLogout, getDividas } = useAuth();
@@ -80,34 +82,7 @@ export function Home() {
 
   return (
     <>
-      <Box bg="gray.200" w="100%" p={4} color="white">
-        <Flex
-          as="header"
-          w="100%"
-          h="20"
-          mx="auto"
-          px="6"
-          align="center"
-          justify="space-between"
-          color="gray.600"
-        >
-          <Flex flexDir="column" align="flex-start">
-            <Text fontSize="xl" fontWeight="bold" letterSpacing="tight" w="64">
-              Olá, {user?.displayName}
-            </Text>
-            <Text as="span" fontSize="sm" letterSpacing="tight" w="64">
-              Seja bem vindo!
-            </Text>
-          </Flex>
-          <Icon
-            as={BiLogOut}
-            fontSize="2xl"
-            cursor="pointer"
-            color="red.500"
-            onClick={submitLogout}
-          />
-        </Flex>
-      </Box>
+      <Header user={user} submitLogout={submitLogout} />
       <Box
         bg="gray.100"
         w="100%"
@@ -189,35 +164,7 @@ export function Home() {
             p={isWideVersion ? "8" : "1"}
           >
             {dividas?.map((divida, index) => (
-              <Flex
-                key={index}
-                flexDir="column"
-                borderRadius={8}
-                bg="gray.50"
-                p="8"
-              >
-                <Text fontSize="xl" fontWeight="bold" letterSpacing="tight">
-                  {divida.name}
-                </Text>
-                <Text fontSize="xl" letterSpacing="tight" color="red.500">
-                  {formatPrice(divida.value)}
-                </Text>
-                <Text>
-                  {format(new Date(divida.date), "dd 'de' MMMM 'de' yyyy", {
-                    locale: ptBR,
-                  })}
-                </Text>
-                <Modal divida={divida} />
-                <Flex mt="8" justify="flex-end" align="center">
-                  <Icon
-                    as={BsFillTrash3Fill}
-                    fontSize="2xl"
-                    cursor="pointer"
-                    color="red.500"
-                    onClick={() => handleDeleteTask(String(divida.id))}
-                  />
-                </Flex>
-              </Flex>
+              <Card key={index} divida={divida} />
             ))}
           </Grid>
         </Flex>
