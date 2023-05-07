@@ -45,6 +45,7 @@ export function Home() {
       arrayParcelas: Array.from(Array(parseInt(data.installments)).keys()).map(
         (parcela, index) => ({
           id: Date.now() + index,
+          paid: false,
           parcela: parcela + 1,
           value: data.value / parseInt(data.installments),
           date:

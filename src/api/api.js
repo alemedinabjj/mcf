@@ -48,9 +48,14 @@ async function addDivida(userId, newDivida) {
       .collection("userDividas")
       .doc();
 
+    const newParcelas = newDivida.arrayParcelas.map((parcela) => {
+      return { ...parcela, pago: false }; // adiciona a propriedade "pago" a cada parcela com o valor inicial "false"
+    });
+
     const newDividaFirebase = {
       ...newDivida,
       id: dividaRef.id,
+      arrayParcelas: newParcelas,
     };
 
     console.log("newDividaFirebase:", newDividaFirebase);
@@ -109,6 +114,49 @@ async function deleteDivida(userId, dividaId) {
   }
 }
 
+async function updateParcela(dividaId, updatedParcela) {
+  try {
+    const dividaRef = db
+      .collection("dividas")
+      .doc(auth.currentUser.uid)
+      .collection("userDividas")
+      .doc(dividaId);
+
+    const dividaDoc = await dividaRef.get();
+
+    const divida = dividaDoc.data();
+
+    console.log("divida:", divida);
+
+    const parcelas = divida.arrayParcelas.map((parcela) => {
+      if (parcela.id === updatedParcela.id) {
+        return updatedParcela;
+      } else {
+        return parcela;
+      }
+    });
+
+    await dividaRef.update({
+      arrayParcelas: parcelas,
+    });
+
+    console.log("Parcela atualizada com sucesso!");
+
+    const newDividaDoc = await dividaRef.get();
+    const newDivida = newDividaDoc.data();
+    return newDivida;
+  } catch (error) {
+    console.error("Erro ao atualizar parcela:", error);
+  }
+}
+
+//usage with handleUpdateParcela function
+// const handleUpdateParcela = async (dividaId, parcelaId, pago) => {
+//   const updatedParcela = {
+//     id: parcelaId,
+//     pago: pago,
+//   };
+
 export {
   signUpWithEmailAndPasswordAndName,
   signInWithEmailAndPassword,
@@ -116,4 +164,5 @@ export {
   addDivida,
   getDividasByUser,
   deleteDivida,
+  updateParcela,
 };

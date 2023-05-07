@@ -12,13 +12,21 @@ import {
   Flex,
   Grid,
   useBreakpointValue,
+  Checkbox,
 } from "@chakra-ui/react";
 import { formatPrice } from "../../utils/formatPrice";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { useAuth } from "../../contexts/AuthContext";
+import { updateParcela } from "../../api/api";
+import { List } from "./List";
+import { useEffect } from "react";
 
-export function Modal({ divida }) {
+export function Modal({ divida, setDividas }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { getDividas } = useAuth();
+
+  console.log("divida", divida);
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -56,7 +64,7 @@ export function Modal({ divida }) {
               <Text as="h2">{divida.arrayParcelas.length} parcelas</Text>
             </Flex>
             <Grid
-              templateColumns="repeat(3, 1fr)"
+              templateColumns="1fr 1fr 1fr .3fr"
               mt="8"
               justify="space-between"
               align="center"
@@ -64,27 +72,16 @@ export function Modal({ divida }) {
               <Text as="h2">Parcelas</Text>
               <Text as="h2">Valor</Text>
               <Text as="h2">Vencimento</Text>
+              <Text as="h2">Pago</Text>
             </Grid>
             {divida.arrayParcelas.map((parcela, index) => (
-              <Grid
+              <List
                 key={index}
-                w="100%"
-                bg="gray.100"
-                paddingBlock={isWideVersion ? "6" : "0"}
-                templateColumns="repeat(3, 1fr)"
-                borderRadius={2}
-                justify="space-between"
-                align="center"
-                mt="4"
-              >
-                <Text as="h2">{index + 1}ª parcela</Text>
-                <Text as="h2">{formatPrice(parcela.value)}</Text>
-                <Text as="h2">
-                  {format(new Date(parcela.date), "dd 'de' MMM yyyy", {
-                    locale: ptBR,
-                  })}
-                </Text>
-              </Grid>
+                divida={divida}
+                parcela={parcela}
+                index={index}
+                setDividas={setDividas}
+              />
             ))}
           </ModalBody>
 
