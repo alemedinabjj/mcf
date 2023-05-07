@@ -70,7 +70,7 @@ export function Modal({ divida }) {
                 key={index}
                 w="100%"
                 bg="gray.100"
-                paddingBlock={isWideVersion ? "6" : "2"}
+                paddingBlock={isWideVersion ? "6" : "0"}
                 templateColumns="repeat(3, 1fr)"
                 borderRadius={2}
                 justify="space-between"

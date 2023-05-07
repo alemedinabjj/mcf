@@ -170,7 +170,7 @@ export function Home() {
             w="100%"
             maxWidth={985}
             mx="auto"
-            p={isWideVersion ? "8" : "1"}
+            p={isWideVersion ? "8" : "0"}
           >
             {dividas?.map((divida, index) => (
               <Card
