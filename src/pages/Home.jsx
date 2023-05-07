@@ -137,7 +137,7 @@ export function Home() {
                 placeholder="Quantidade de parcelas"
                 {...register("installments")}
               >
-                {Array.from({ length: 12 }, (_, i) => i + 1).map((item) => (
+                {Array.from({ length: 64 }, (_, i) => i + 1).map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -164,7 +164,11 @@ export function Home() {
             p={isWideVersion ? "8" : "1"}
           >
             {dividas?.map((divida, index) => (
-              <Card key={index} divida={divida} />
+              <Card
+                key={index}
+                divida={divida}
+                handleDeleteTask={handleDeleteTask}
+              />
             ))}
           </Grid>
         </Flex>

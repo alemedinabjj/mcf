@@ -52,12 +52,8 @@ export function Modal({ divida }) {
               justify="space-between"
               align="center"
             >
-              <Text as="h2">
-                Valor total da dívida: {formatPrice(divida.value)}
-              </Text>
-              <Text as="h2">
-                Quantidade de parcelas: {divida.arrayParcelas.length} parcelas
-              </Text>
+              <Text as="h2">Valor da dívida {formatPrice(divida.value)}</Text>
+              <Text as="h2">{divida.arrayParcelas.length} parcelas</Text>
             </Flex>
             <Grid
               templateColumns="repeat(3, 1fr)"
@@ -67,7 +63,7 @@ export function Modal({ divida }) {
             >
               <Text as="h2">Parcelas</Text>
               <Text as="h2">Valor</Text>
-              <Text as="h2">Próximo vencimento: </Text>
+              <Text as="h2">Vencimento</Text>
             </Grid>
             {divida.arrayParcelas.map((parcela, index) => (
               <Grid
