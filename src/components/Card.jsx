@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { AlertDelete } from "./Alert/AlertDelete";
 
-export function Card({ divida, index, handleDeleteTask }) {
+export function Card({ divida, index, handleDeleteTask, setDividas }) {
   const animation = keyframes`
     from {
       opacity: 0;
@@ -38,7 +38,7 @@ export function Card({ divida, index, handleDeleteTask }) {
           locale: ptBR,
         })}
       </Text>
-      <Modal divida={divida} />
+      <Modal divida={divida} setDividas={setDividas} />
       <Flex mt="8" justify="flex-end" align="center">
         <AlertDelete
           divida={divida}

@@ -178,6 +178,7 @@ export function Home() {
                 key={index}
                 divida={divida}
                 handleDeleteTask={handleDeleteTask}
+                setDividas={setDividas}
               />
             ))}
           </Grid>

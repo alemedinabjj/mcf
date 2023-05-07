@@ -33,6 +33,27 @@ export function Modal({ divida, setDividas }) {
     lg: true,
   });
 
+  const valueTotal = divida?.arrayParcelas?.reduce(
+    (acc, curr) => {
+      const { value, pago } = curr;
+
+      if (pago) {
+        return {
+          ...acc,
+          pago: acc.pago + value,
+        };
+      }
+
+      return {
+        ...acc,
+        pendente: acc.pendente + value,
+      };
+    },
+    { pago: 0, pendente: 0 }
+  );
+
+  console.log("valueTotal", valueTotal);
+
   return (
     <>
       <Button
@@ -60,7 +81,9 @@ export function Modal({ divida, setDividas }) {
               justify="space-between"
               align="center"
             >
-              <Text as="h2">Valor da dívida {formatPrice(divida.value)}</Text>
+              <Text as="h2">
+                Valor da dívida {formatPrice(valueTotal.pendente)}
+              </Text>
               <Text as="h2">{divida.arrayParcelas.length} parcelas</Text>
             </Flex>
             <Grid

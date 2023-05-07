@@ -23,6 +23,8 @@ export function List({ divida, index, parcela, setDividas }) {
     };
 
     await updateParcela(dividaId, updatedParcela);
+
+    getDividas().then((data) => setDividas(data));
   };
 
   return (
