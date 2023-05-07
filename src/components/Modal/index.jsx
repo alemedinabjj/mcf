@@ -11,6 +11,7 @@ import {
   Text,
   Flex,
   Grid,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { formatPrice } from "../../utils/formatPrice";
 import { format } from "date-fns";
@@ -18,6 +19,12 @@ import { ptBR } from "date-fns/locale";
 
 export function Modal({ divida }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    lg: true,
+  });
+
   return (
     <>
       <Button
@@ -40,7 +47,7 @@ export function Modal({ divida }) {
           <ModalBody display="flex" flexDirection="column">
             <Flex
               bg="gray.100"
-              p="8"
+              p={isWideVersion ? "8" : "2"}
               borderRadius={2}
               justify="space-between"
               align="center"
@@ -65,8 +72,9 @@ export function Modal({ divida }) {
             {divida.arrayParcelas.map((parcela, index) => (
               <Grid
                 key={index}
+                w="100%"
                 bg="gray.100"
-                paddingBlock="8"
+                paddingBlock={isWideVersion ? "6" : "2"}
                 templateColumns="repeat(3, 1fr)"
                 borderRadius={2}
                 justify="space-between"
@@ -76,7 +84,7 @@ export function Modal({ divida }) {
                 <Text as="h2">{index + 1}ª parcela</Text>
                 <Text as="h2">{formatPrice(parcela.value)}</Text>
                 <Text as="h2">
-                  {format(new Date(parcela.date), "dd 'de' MMMM 'de' yyyy", {
+                  {format(new Date(parcela.date), "dd 'de' MMMM ", {
                     locale: ptBR,
                   })}
                 </Text>

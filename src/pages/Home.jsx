@@ -179,7 +179,9 @@ export function Home() {
             </Flex>
           </Box>
           <Grid
-            templateColumns="repeat(3, 1fr)"
+            templateColumns={
+              isWideVersion ? "repeat(3, 1fr)" : "repeat(1, 1fr)"
+            }
             gap={6}
             w="100%"
             maxWidth={985}
