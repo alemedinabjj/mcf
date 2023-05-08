@@ -91,8 +91,6 @@ export function Home() {
   }
 
   function selectConcluidas() {
-    selectTodas();
-
     const concluidas = dividas?.filter((divida) => {
       const { arrayParcelas } = divida;
 
@@ -105,8 +103,6 @@ export function Home() {
   }
 
   function selectNaoConcluidas() {
-    selectTodas();
-
     const naoConcluidas = dividas?.filter((divida) => {
       const { arrayParcelas } = divida;
 
@@ -119,8 +115,6 @@ export function Home() {
   }
 
   function selectVencidas() {
-    selectTodas();
-
     const vencidas = dividas?.filter((divida) => {
       const { arrayParcelas } = divida;
 
@@ -137,8 +131,6 @@ export function Home() {
   }
 
   function selectAVencer() {
-    selectTodas();
-
     const aVencer = dividas?.filter((divida) => {
       const { arrayParcelas } = divida;
 
