@@ -32,7 +32,10 @@ function InputFloating(
         ref={ref}
         {...rest}
       />
-      <FormLabel color={color ? color : "gray.400"} bgColor={"transparent"}>
+      <FormLabel
+        color={color ? color : "gray.400"}
+        bgColor={"gray.50!important"}
+      >
         {label}
       </FormLabel>
       {error && <FormErrorMessage>{error.message}</FormErrorMessage>}
