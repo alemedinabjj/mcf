@@ -10,7 +10,6 @@ export function Header({ user, submitLogout }) {
         w="100%"
         h="20"
         mx="auto"
-        px="6"
         align="center"
         justify="space-between"
         color="gray.600"
