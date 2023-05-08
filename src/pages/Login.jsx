@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Login as LoginForm } from "../components/Login";
+import { AuthGoogle } from "../components/AuthGoogle";
 
 export function Login() {
   return (

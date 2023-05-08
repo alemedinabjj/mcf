@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   Input,
   InputGroup,
   InputLeftAddon,
@@ -9,6 +10,8 @@ import {
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { AuthGoogle } from "./AuthGoogle";
+import { AuthGithub } from "./AuthGithub";
 
 export function Login() {
   const { login } = useAuth();
@@ -44,6 +47,8 @@ export function Login() {
       <Text as={Link} to="/signup" fontSize="sm" color="blue.500">
         Não tem uma conta? Cadastre-se
       </Text>
+      <AuthGoogle />
+      <AuthGithub />
     </Stack>
   );
 }
