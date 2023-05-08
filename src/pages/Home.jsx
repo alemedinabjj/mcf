@@ -90,6 +90,74 @@ export function Home() {
       console.log("dividaId", dividaId);
   }
 
+  function selectConcluidas() {
+    selectTodas();
+
+    const concluidas = dividas?.filter((divida) => {
+      const { arrayParcelas } = divida;
+
+      const isConcluida = arrayParcelas.every((parcela) => parcela.pago);
+
+      return isConcluida;
+    });
+
+    setDividas(concluidas);
+  }
+
+  function selectNaoConcluidas() {
+    selectTodas();
+
+    const naoConcluidas = dividas?.filter((divida) => {
+      const { arrayParcelas } = divida;
+
+      const isConcluida = arrayParcelas.every((parcela) => parcela.pago);
+
+      return !isConcluida;
+    });
+
+    setDividas(naoConcluidas);
+  }
+
+  function selectVencidas() {
+    selectTodas();
+
+    const vencidas = dividas?.filter((divida) => {
+      const { arrayParcelas } = divida;
+
+      const isVencida = arrayParcelas.some((parcela) => {
+        const hoje = new Date();
+        const dataParcela = new Date(parcela.data);
+        return !parcela.pago && dataParcela < hoje;
+      });
+
+      return isVencida;
+    });
+
+    setDividas(vencidas);
+  }
+
+  function selectAVencer() {
+    selectTodas();
+
+    const aVencer = dividas?.filter((divida) => {
+      const { arrayParcelas } = divida;
+
+      const isAVencer = arrayParcelas.some((parcela) => {
+        const hoje = new Date();
+        const dataParcela = new Date(parcela.data);
+        return !parcela.pago && dataParcela > hoje;
+      });
+
+      return isAVencer;
+    });
+
+    setDividas(aVencer);
+  }
+
+  function selectTodas() {
+    getDividas().then((data) => setDividas(data));
+  }
+
   return (
     <>
       <Header user={user} submitLogout={submitLogout} />
@@ -163,6 +231,49 @@ export function Home() {
               <Button type="submit">Cadastrar</Button>
             </Flex>
           </Box>
+          <Flex
+            align="center"
+            justify="space-between"
+            px={isWideVersion ? "6" : "3"}
+            flexWrap="wrap"
+            gap="2rem"
+          >
+            <Button
+              onClick={() => selectTodas()}
+              variant="ghost"
+              colorScheme="blue"
+            >
+              Todas
+            </Button>
+            <Button
+              onClick={() => selectConcluidas()}
+              variant="ghost"
+              colorScheme="blue"
+            >
+              Concluídas
+            </Button>
+            <Button
+              onClick={() => selectNaoConcluidas()}
+              variant="ghost"
+              colorScheme="blue"
+            >
+              Não concluídas
+            </Button>
+            <Button
+              onClick={() => selectVencidas()}
+              variant="ghost"
+              colorScheme="blue"
+            >
+              Vencidas
+            </Button>
+            <Button
+              onClick={() => selectAVencer()}
+              variant="ghost"
+              colorScheme="blue"
+            >
+              A vencer
+            </Button>
+          </Flex>
           <Grid
             templateColumns={
               isWideVersion ? "repeat(3, 1fr)" : "repeat(1, 1fr)"
