@@ -68,7 +68,7 @@ export function Home() {
     addDivida(userId, newDivida).then(() => {
       console.log(newDivida);
       getDividas().then((data) => {
-        setTodasDividas(data);
+        // setTodasDividas(data);
         setDividas(data);
       });
     });
@@ -79,7 +79,7 @@ export function Home() {
   useEffect(() => {
     if (user) {
       getDividas().then((data) => {
-        setTodasDividas(data);
+        // setTodasDividas(data);
         setDividas(data);
       });
     }
@@ -232,7 +232,7 @@ export function Home() {
               <Button type="submit">Cadastrar</Button>
             </Flex>
           </Box>
-          <Flex
+          {/* <Flex
             align="center"
             justify="space-between"
             px={isWideVersion ? "6" : "3"}
@@ -274,7 +274,7 @@ export function Home() {
             >
               A vencer
             </Button>
-          </Flex>
+          </Flex> */}
           <Grid
             templateColumns={
               isWideVersion ? "repeat(3, 1fr)" : "repeat(1, 1fr)"
