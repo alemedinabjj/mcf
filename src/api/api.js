@@ -136,7 +136,6 @@ async function updateParcela(dividaId, updatedParcela) {
       }
     });
 
-    //se todas as parcelas estiverem pagas, atualiza o status da dívida para "pago"
     const dividaPaga = parcelas.every((parcela) => parcela.pago === true);
 
     if (dividaPaga) {
