@@ -12,7 +12,7 @@ export function SignUp() {
           textAlign="center"
           color="gray.600"
         >
-          Sign Up
+          Cadastre-se
         </Text>
       </Box>
       <Box

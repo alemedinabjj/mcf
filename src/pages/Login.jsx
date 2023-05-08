@@ -12,7 +12,7 @@ export function Login() {
           textAlign="center"
           color="gray.600"
         >
-          Sign In
+          Entre com sua conta
         </Text>
       </Box>
       <Box

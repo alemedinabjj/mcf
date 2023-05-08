@@ -37,33 +37,33 @@ export function SignUp() {
       <Stack spacing={4} as="form" onSubmit={handleSubmit(handleSignUp)}>
         <InputGroup>
           <InputLeftAddon children="Name" minWidth="120px" />
-          <Input type="text" placeholder="your name" {...register("name")} />
+          <Input type="text" placeholder="seu apelido" {...register("name")} />
         </InputGroup>
 
         <InputGroup>
           <InputLeftAddon children="E-mail" minWidth="120px" />
           <Input
             type="text"
-            placeholder="your best email"
+            placeholder="seu melhor e-mail"
             {...register("email")}
           />
         </InputGroup>
 
         <InputGroup>
-          <InputLeftAddon children="Pass" minWidth="120px" />
+          <InputLeftAddon children="Senha" minWidth="120px" />
           <Input
             type="password"
-            placeholder="your best password"
+            placeholder="sua melhor senha"
             {...register("password")}
           />
         </InputGroup>
 
         <Button type="submit" colorScheme="blue" size="lg" fontSize="md">
-          Sign Up
+          Criar conta
         </Button>
 
         <Text as={Link} to="/login" fontSize="sm" color="blue.500">
-          Already have an account? Login here.
+          Já tem uma conta? Faça login
         </Text>
       </Stack>
     </>
