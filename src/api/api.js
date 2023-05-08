@@ -136,18 +136,28 @@ async function updateParcela(dividaId, updatedParcela) {
       }
     });
 
-    await dividaRef.update({
-      arrayParcelas: parcelas,
-    });
+    //se todas as parcelas estiverem pagas, atualiza o status da dívida para "pago"
+    const dividaPaga = parcelas.every((parcela) => parcela.pago === true);
 
-    console.log("Parcela atualizada com sucesso!");
-
-    const newDividaDoc = await dividaRef.get();
-    const newDivida = newDividaDoc.data();
-    return newDivida;
+    if (dividaPaga) {
+      return await dividaRef.update({
+        arrayParcelas: parcelas,
+        paid: true,
+      });
+    } else {
+      return await dividaRef.update({
+        arrayParcelas: parcelas,
+      });
+    }
   } catch (error) {
     console.error("Erro ao atualizar parcela:", error);
   }
+
+  console.log("Parcela atualizada com sucesso!");
+
+  const newDividaDoc = await dividaRef.get();
+  const newDivida = newDividaDoc.data();
+  return newDivida;
 }
 
 //usage with handleUpdateParcela function

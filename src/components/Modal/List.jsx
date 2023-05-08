@@ -31,13 +31,20 @@ export function List({ divida, index, parcela, setDividas }) {
     <Grid
       key={index}
       w="100%"
-      bg="gray.100"
+      bg={
+        parcela.pago
+          ? "green.100"
+          : new Date(parcela.date) < new Date()
+          ? "red.100"
+          : "gray.100"
+      }
       paddingBlock={isWideVersion ? "6" : "0"}
       templateColumns="1fr 1fr 1fr .3fr"
       borderRadius={2}
       placeItems="center"
       align="center"
       mt="4"
+      transition="all .2s ease-in-out"
     >
       <Text as="h2">{index + 1}ª parcela</Text>
       <Text as="h2">{formatPrice(parcela.value)}</Text>

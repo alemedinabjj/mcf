@@ -43,6 +43,7 @@ export function Home() {
       name: data.name,
       value: data.value,
       date: data.dueDate,
+      paid: false,
       arrayParcelas: Array.from(Array(parseInt(data.installments)).keys()).map(
         (parcela, index) => ({
           id: Date.now() + index,
@@ -185,6 +186,7 @@ export function Home() {
           <Box
             flex="1"
             borderRadius={8}
+            w="100%"
             bg="gray.50"
             p="8"
             as="form"
@@ -229,61 +231,19 @@ export function Home() {
               />
             </Flex>
             <Flex mt="8" justify="flex-end">
-              <Button type="submit">Cadastrar</Button>
+              <Button colorScheme="blue" type="submit">
+                Cadastrar
+              </Button>
             </Flex>
           </Box>
-          {/* <Flex
-            align="center"
-            justify="space-between"
-            px={isWideVersion ? "6" : "3"}
-            flexWrap="wrap"
-            gap="2rem"
-          >
-            <Button
-              onClick={() => selectTodas()}
-              variant="ghost"
-              colorScheme="blue"
-            >
-              Todas
-            </Button>
-            <Button
-              onClick={() => selectConcluidas()}
-              variant="ghost"
-              colorScheme="blue"
-            >
-              Concluídas
-            </Button>
-            <Button
-              onClick={() => selectNaoConcluidas()}
-              variant="ghost"
-              colorScheme="blue"
-            >
-              Não concluídas
-            </Button>
-            <Button
-              onClick={() => selectVencidas()}
-              variant="ghost"
-              colorScheme="blue"
-            >
-              Vencidas
-            </Button>
-            <Button
-              onClick={() => selectAVencer()}
-              variant="ghost"
-              colorScheme="blue"
-            >
-              A vencer
-            </Button>
-          </Flex> */}
           <Grid
             templateColumns={
               isWideVersion ? "repeat(3, 1fr)" : "repeat(1, 1fr)"
             }
             gap={6}
+            justifyContent="space-between"
             w="100%"
-            maxWidth={985}
             mx="auto"
-            p={isWideVersion ? "8" : "0"}
           >
             {dividas?.map((divida, index) => (
               <Card

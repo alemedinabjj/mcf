@@ -5,6 +5,8 @@ import { formatPrice } from "../utils/formatPrice";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { AlertDelete } from "./Alert/AlertDelete";
+import { BsFillPatchCheckFill } from "react-icons/bs";
+import { RiErrorWarningFill } from "react-icons/ri";
 
 export function Card({ divida, index, handleDeleteTask, setDividas }) {
   const animation = keyframes`
@@ -23,10 +25,36 @@ export function Card({ divida, index, handleDeleteTask, setDividas }) {
       key={index}
       flexDir="column"
       borderRadius={8}
-      bg="gray.50"
+      bg={
+        divida.paid
+          ? "green.100"
+          : (new Date(divida.date) < new Date() && "red.100") || "gray.50"
+      }
       p="8"
       animation={`${animation} ease-in-out 0.5s`}
+      position="relative"
     >
+      {divida.paid && (
+        <Icon
+          as={BsFillPatchCheckFill}
+          position="absolute"
+          top="4"
+          right="4"
+          color="green.500"
+          fontSize="2xl"
+        />
+      )}
+      {new Date(divida.date) < new Date() && (
+        <Icon
+          as={RiErrorWarningFill}
+          position="absolute"
+          top="4"
+          right="4"
+          color="red.500"
+          fontSize="2xl"
+        />
+      )}
+
       <Text fontSize="xl" fontWeight="bold" letterSpacing="tight">
         {divida.name}
       </Text>
