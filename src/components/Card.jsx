@@ -44,7 +44,7 @@ export function Card({ divida, index, handleDeleteTask, setDividas }) {
           fontSize="2xl"
         />
       )}
-      {new Date(divida.date) < new Date() && (
+      {!divida.paid && new Date(divida.date) < new Date() && (
         <Icon
           as={RiErrorWarningFill}
           position="absolute"

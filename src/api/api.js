@@ -147,6 +147,7 @@ async function updateParcela(dividaId, updatedParcela) {
     } else {
       return await dividaRef.update({
         arrayParcelas: parcelas,
+        paid: false,
       });
     }
   } catch (error) {
