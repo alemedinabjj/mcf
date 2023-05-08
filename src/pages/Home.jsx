@@ -230,7 +230,22 @@ export function Home() {
                 {...register("dueDate")}
               />
             </Flex>
-            <Flex mt="8" justify="flex-end">
+            <Flex
+              w="100%"
+              align="center"
+              gap={isWideVersion ? "4" : "6"}
+              justifyContent="space-between"
+              mt="8"
+            >
+              <Text
+                as="span"
+                color="gray.500"
+                fontSize="sm"
+                fontWeight="bold"
+                mr="2"
+              >
+                Você tem um total de {dividas?.length} dívidas
+              </Text>
               <Button colorScheme="blue" type="submit">
                 Cadastrar
               </Button>
