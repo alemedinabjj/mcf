@@ -26,6 +26,7 @@ export function Home() {
   const { user, handleLogout, getDividas } = useAuth();
   const { register, handleSubmit, reset } = useForm();
   const [dividas, setDividas] = useState([]);
+  const [todasDividas, setTodasDividas] = useState([]);
 
   function submitLogout() {
     handleLogout();
@@ -66,7 +67,10 @@ export function Home() {
 
     addDivida(userId, newDivida).then(() => {
       console.log(newDivida);
-      getDividas().then((data) => setDividas(data));
+      getDividas().then((data) => {
+        setTodasDividas(data);
+        setDividas(data);
+      });
     });
 
     reset();
@@ -74,7 +78,10 @@ export function Home() {
 
   useEffect(() => {
     if (user) {
-      getDividas().then((data) => setDividas(data));
+      getDividas().then((data) => {
+        setTodasDividas(data);
+        setDividas(data);
+      });
     }
   }, [user]);
 
@@ -85,13 +92,15 @@ export function Home() {
 
   function handleDeleteTask(dividaId) {
     deleteDivida(user?.uid, dividaId).then(() => {
-      getDividas().then((data) => setDividas(data));
+      getDividas().then((data) => {
+        setDividas(data);
+      });
     }),
       console.log("dividaId", dividaId);
   }
 
   function selectConcluidas() {
-    const concluidas = dividas?.filter((divida) => {
+    const concluidas = todasDividas?.filter((divida) => {
       const { arrayParcelas } = divida;
 
       const isConcluida = arrayParcelas.every((parcela) => parcela.pago);
@@ -103,7 +112,7 @@ export function Home() {
   }
 
   function selectNaoConcluidas() {
-    const naoConcluidas = dividas?.filter((divida) => {
+    const naoConcluidas = todasDividas?.filter((divida) => {
       const { arrayParcelas } = divida;
 
       const isConcluida = arrayParcelas.every((parcela) => parcela.pago);
@@ -115,7 +124,7 @@ export function Home() {
   }
 
   function selectVencidas() {
-    const vencidas = dividas?.filter((divida) => {
+    const vencidas = todasDividas?.filter((divida) => {
       const { arrayParcelas } = divida;
 
       const isVencida = arrayParcelas.some((parcela) => {
@@ -131,7 +140,7 @@ export function Home() {
   }
 
   function selectAVencer() {
-    const aVencer = dividas?.filter((divida) => {
+    const aVencer = todasDividas?.filter((divida) => {
       const { arrayParcelas } = divida;
 
       const isAVencer = arrayParcelas.some((parcela) => {
