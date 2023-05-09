@@ -423,21 +423,68 @@ async function updateSharedDivida(sharedDividaId, updatedParcela) {
 
     console.log("Divida compartilhada atualizada com sucesso!");
 
-    const newSharedDividaDoc = await sharedDividaRef.get();
-    const newSharedDivida = newSharedDividaDoc.data();
-    return newSharedDivida;
+    // Atualiza a cópia da divida do usuário com quem a divida foi compartilhada
+    const dividaCompartilhadaRef = db
+      .collection("dividasCompartilhadas")
+      .doc(sharedDivida.usuarioId)
+      .collection("userDividas")
+      .doc(sharedDivida.dividaId);
+
+    const dividaCompartilhadaDoc = await dividaCompartilhadaRef.get();
+
+    if (!dividaCompartilhadaDoc.exists) {
+      console.error("Dívida compartilhada não encontrada na cópia do usuário!");
+      return;
+    }
+
+    const dividaCompartilhada = dividaCompartilhadaDoc.data();
+
+    const parcelasCompartilhadas = dividaCompartilhada.arrayParcelas.map(
+      (parcela) => {
+        if (parcela.id === updatedParcela.id) {
+          console.log(
+            "Parcela encontrada na cópia do usuário!,",
+            updatedParcela
+          );
+          return updatedParcela;
+        } else {
+          return parcela;
+        }
+      }
+    );
+
+    const dividaCompartilhadaPaga = parcelasCompartilhadas.every(
+      (parcela) => parcela.pago === true
+    );
+
+    if (dividaCompartilhadaPaga) {
+      await dividaCompartilhadaRef.update({
+        arrayParcelas: parcelasCompartilhadas,
+        pago: true,
+      });
+    } else {
+      await dividaCompartilhadaRef.update({
+        arrayParcelas: parcelasCompartilhadas,
+        pago: false,
+      });
+    }
+
+    console.log("Cópia da divida compartilhada atualizada com sucesso!");
   } catch (error) {
-    console.error("Erro ao atualizar divida compartilhada:", error);
+    console.error("Erro ao atualizar dívida compartilhada:", error);
   }
 }
 
 //usage example updateSharedDivida
+
 // const updatedParcela = {
 //   id: "1",
+//   dataVencimento: "2021-05-01",
 //   valor: 100,
-//   data: "2021-05-01",
 //   pago: true,
 // };
+
+// updateSharedDivida("1", updatedParcela);
 
 // updateSharedDivida("1", updatedParcela);
 

@@ -1,5 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
-import { Box, Flex, Grid, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, Grid, useBreakpointValue } from "@chakra-ui/react";
 import { deleteDivida } from "../api/api";
 import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
@@ -38,15 +38,7 @@ export function Home() {
           gap="2rem"
         >
           <Form dividas={dividas} />
-          <Text
-            as={Link}
-            to={`/dividas/${user.uid}`}
-            fontSize="xl"
-            fontWeight="bold"
-            _hover={{ color: "gray.600", textDecoration: "underline" }}
-          >
-            Dívidas compartilhadas com você
-          </Text>
+          <Link to={`/dividas/${user.uid}`}>Shared</Link>
           <Grid
             templateColumns={
               isWideVersion ? "repeat(3, 1fr)" : "repeat(1, 1fr)"
