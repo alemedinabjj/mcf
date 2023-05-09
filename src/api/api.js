@@ -251,6 +251,53 @@ async function updateUser(userId, file) {
   }
 }
 
+// async function shareDivida(dividaId, email) {
+//   try {
+//     const dividaRef = db
+//       .collection("dividas")
+//       .doc(auth.currentUser.uid)
+//       .collection("userDividas")
+//       .doc(dividaId);
+
+//     const dividaDoc = await dividaRef.get();
+
+//     if (!dividaDoc.exists) {
+//       console.error("Dívida não encontrada!");
+//       return;
+//     }
+
+//     const divida = dividaDoc.data();
+
+//     const user = await db.collection("users").where("email", "==", email).get();
+
+//     if (user.empty) {
+//       console.error("Usuário não encontrado!");
+//       return;
+//     }
+
+//     const userId = user.docs[0].id;
+
+//     await db
+//       .collection("dividas")
+//       .doc(userId)
+//       .collection("sharedDividas")
+//       .doc(dividaId)
+//       .set({
+//         ...divida,
+//         sharedBy: auth.currentUser.displayName,
+//       });
+
+//     console.log(`Dívida compartilhada com sucesso com o usuário ${email}!`);
+
+//     await dividaRef.update({
+//       shared: true,
+//       sharedWith: email,
+//     });
+//   } catch (error) {
+//     console.error("Erro ao compartilhar dívida:", error);
+//   }
+// }
+
 async function shareDivida(dividaId, email) {
   try {
     const dividaRef = db
@@ -277,6 +324,8 @@ async function shareDivida(dividaId, email) {
 
     const userId = user.docs[0].id;
 
+    const sharedLink = `http://localhost:5174/divida-compartilhada/${auth.currentUser.uid}/${dividaId}`;
+
     await db
       .collection("dividas")
       .doc(userId)
@@ -284,13 +333,16 @@ async function shareDivida(dividaId, email) {
       .doc(dividaId)
       .set({
         ...divida,
+        sharedLink,
         sharedBy: auth.currentUser.displayName,
       });
 
     console.log(`Dívida compartilhada com sucesso com o usuário ${email}!`);
 
     await dividaRef.update({
+      ...divida,
       shared: true,
+      sharedLink,
       sharedWith: email,
     });
   } catch (error) {
@@ -329,6 +381,66 @@ async function getDividasSharedByUser(userId) {
   }
 }
 
+async function updateSharedDivida(sharedDividaId, updatedParcela) {
+  try {
+    const sharedDividaRef = db
+      .collection("dividas")
+      .doc(auth.currentUser.uid)
+      .collection("sharedDividas")
+      .doc(sharedDividaId);
+
+    const sharedDividaDoc = await sharedDividaRef.get();
+
+    if (!sharedDividaDoc.exists) {
+      console.error("Dívida compartilhada não encontrada!");
+      return;
+    }
+
+    const sharedDivida = sharedDividaDoc.data();
+
+    const parcelas = sharedDivida.arrayParcelas.map((parcela) => {
+      if (parcela.id === updatedParcela.id) {
+        console.log("Parcela encontrada!,", updatedParcela);
+        return updatedParcela;
+      } else {
+        return parcela;
+      }
+    });
+
+    const dividaPaga = parcelas.every((parcela) => parcela.pago === true);
+
+    if (dividaPaga) {
+      await sharedDividaRef.update({
+        arrayParcelas: parcelas,
+        pago: true,
+      });
+    } else {
+      await sharedDividaRef.update({
+        arrayParcelas: parcelas,
+        pago: false,
+      });
+    }
+
+    console.log("Divida compartilhada atualizada com sucesso!");
+
+    const newSharedDividaDoc = await sharedDividaRef.get();
+    const newSharedDivida = newSharedDividaDoc.data();
+    return newSharedDivida;
+  } catch (error) {
+    console.error("Erro ao atualizar divida compartilhada:", error);
+  }
+}
+
+//usage example updateSharedDivida
+// const updatedParcela = {
+//   id: "1",
+//   valor: 100,
+//   data: "2021-05-01",
+//   pago: true,
+// };
+
+// updateSharedDivida("1", updatedParcela);
+
 export {
   signUpWithEmailAndPasswordAndName,
   signInWithEmailAndPassword,
@@ -342,4 +454,5 @@ export {
   updateUser,
   shareDivida,
   getDividasSharedByUser,
+  updateSharedDivida,
 };

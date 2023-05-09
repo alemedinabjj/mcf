@@ -2,8 +2,15 @@ import { Box, Flex, Icon, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import { BiLogOut } from "react-icons/bi";
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 import { Menu } from "./Menu";
+import { useAuth } from "../contexts/AuthContext";
 
-export function Header({ user, submitLogout }) {
+export function Header() {
+  const { user, handleLogout } = useAuth();
+
+  function submitLogout() {
+    handleLogout();
+  }
+
   return (
     <Box bg="gray.200" w="100%" p={4} color="white">
       <Flex

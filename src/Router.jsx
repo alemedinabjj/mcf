@@ -4,6 +4,7 @@ import { Contact } from "./pages/Contact";
 import { SignUp } from "./pages/SignUp";
 import { Login } from "./pages/Login";
 import { useAuth } from "./contexts/AuthContext";
+import { DividaCompartilhada } from "./pages/DividaCompartilhada";
 
 export const AppRoutes = () => {
   const { user } = useAuth();
@@ -11,6 +12,10 @@ export const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path={"/dividas/:userid"}
+          element={user ? <DividaCompartilhada /> : <Login />}
+        />
         <Route path="/" element={user ? <Home /> : <Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />

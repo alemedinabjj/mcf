@@ -1,5 +1,5 @@
 import { Checkbox, Grid, Text, useBreakpointValue } from "@chakra-ui/react";
-import { updateParcela } from "../../api/api";
+import { updateParcela, updateSharedDivida } from "../../api/api";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { formatPrice } from "../../utils/formatPrice";
@@ -12,7 +12,7 @@ export function List({ divida, index, parcela, setDividas }) {
     lg: true,
   });
 
-  const { getDividas } = useAuth();
+  const { getDividas, user, setSharedDividas } = useAuth();
 
   const handleUpdateParcela = async (dividaId, parcelaId, pago) => {
     const updatedParcela = {
@@ -23,6 +23,9 @@ export function List({ divida, index, parcela, setDividas }) {
     };
 
     await updateParcela(dividaId, updatedParcela);
+    const newUpdated = await updateSharedDivida(dividaId, updatedParcela);
+
+    setSharedDividas(newUpdated);
 
     getDividas().then((data) => setDividas(data));
   };

@@ -1,18 +1,14 @@
 import { useAuth } from "../contexts/AuthContext";
-import { Box, Flex, Grid, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Flex, Grid, Text, useBreakpointValue } from "@chakra-ui/react";
 import { deleteDivida } from "../api/api";
 import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { Card } from "../components/Card";
 import { Form } from "../components/Form";
+import { Link } from "react-router-dom";
 
 export function Home() {
-  const { user, handleLogout, handleDeleteTask } = useAuth();
-  const { dividas } = useAuth();
-
-  function submitLogout() {
-    handleLogout();
-  }
+  const { dividas, sharedDividas, user } = useAuth();
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -21,7 +17,6 @@ export function Home() {
 
   return (
     <>
-      <Header user={user} submitLogout={submitLogout} />
       <Box
         bg="gray.100"
         w="100%"
@@ -43,6 +38,15 @@ export function Home() {
           gap="2rem"
         >
           <Form dividas={dividas} />
+          <Text
+            as={Link}
+            to={`/dividas/${user.uid}`}
+            fontSize="xl"
+            fontWeight="bold"
+            _hover={{ color: "gray.600", textDecoration: "underline" }}
+          >
+            Dívidas compartilhadas com você
+          </Text>
           <Grid
             templateColumns={
               isWideVersion ? "repeat(3, 1fr)" : "repeat(1, 1fr)"

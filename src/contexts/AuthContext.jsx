@@ -10,6 +10,7 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [sharedDividas, setSharedDividas] = useState([]);
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) !== "undefined"
       ? JSON.parse(localStorage.getItem("user"))
@@ -55,9 +56,13 @@ export function AuthProvider({ children }) {
     const allDividas = await getDividasByUser(user.uid);
     const sharedDividas = await getDividasSharedByUser(user.uid);
 
-    setDividas([...allDividas, ...sharedDividas]);
+    setSharedDividas(sharedDividas);
 
-    return [...allDividas, ...sharedDividas];
+    setDividas(allDividas);
+
+    console.log("allDividas", sharedDividas);
+
+    return allDividas;
   }
 
   useEffect(() => {
@@ -65,6 +70,8 @@ export function AuthProvider({ children }) {
       getDividas();
     }
   }, [user]);
+
+  console.log("shared", sharedDividas);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -99,6 +106,8 @@ export function AuthProvider({ children }) {
         dividas,
         setDividas,
         handleDeleteTask,
+        sharedDividas,
+        setSharedDividas,
       }}
     >
       {children}
