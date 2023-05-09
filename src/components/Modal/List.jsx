@@ -3,7 +3,6 @@ import { updateParcela, updateSharedDivida } from "../../api/api";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { formatPrice } from "../../utils/formatPrice";
-import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
 export function List({ divida, index, parcela, setDividas }) {
@@ -22,7 +21,7 @@ export function List({ divida, index, parcela, setDividas }) {
       pago: pago,
     };
 
-    await updateParcela(dividaId, updatedParcela);
+    updateParcela(dividaId, updatedParcela);
     const newUpdated = await updateSharedDivida(dividaId, updatedParcela);
 
     setSharedDividas(newUpdated);

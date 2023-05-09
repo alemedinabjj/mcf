@@ -32,7 +32,17 @@ export function DividaCompartilhada() {
   console.log("divida", divida);
 
   if (!divida) {
-    return <div>Carregando...</div>;
+    return (
+      <Text
+        fontSize="3xl"
+        fontWeight="bold"
+        color="gray.600"
+        textAlign="center"
+        mt="4"
+      >
+        Carregando...
+      </Text>
+    );
   }
 
   return (
@@ -44,7 +54,7 @@ export function DividaCompartilhada() {
       px="6"
       align="center"
     >
-      <Text fontSize="3xl" fontWeight="bold" mb="4" textAlign="center">
+      <Text fontSize="3xl" fontWeight="bold" mb="4" textAlign="center" mt="4">
         Dividas Compartilhadas
       </Text>
       {divida?.length === 0 && (
