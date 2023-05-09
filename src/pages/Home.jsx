@@ -1,17 +1,7 @@
 import { useAuth } from "../contexts/AuthContext";
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Select,
-  useBreakpointValue,
-} from "@chakra-ui/react";
-import InputFloating from "../components/InputFloating";
-import { useForm } from "react-hook-form";
-import { addDivida, deleteDivida } from "../api/api";
-import { useCallback, useEffect, useState } from "react";
-import { format } from "date-fns";
+import { Box, Flex, Grid, useBreakpointValue } from "@chakra-ui/react";
+import { deleteDivida } from "../api/api";
+import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { Card } from "../components/Card";
 import { Form } from "../components/Form";
@@ -19,18 +9,14 @@ import { Form } from "../components/Form";
 export function Home() {
   const { user, handleLogout, getDividas } = useAuth();
   const [dividas, setDividas] = useState([]);
-  const [todasDividas, setTodasDividas] = useState([]);
 
   function submitLogout() {
     handleLogout();
   }
 
-  console.log("dividas", dividas);
-
   useEffect(() => {
     if (user) {
       getDividas().then((data) => {
-        // setTodasDividas(data);
         setDividas(data);
       });
     }
@@ -48,66 +34,6 @@ export function Home() {
       });
     }),
       console.log("dividaId", dividaId);
-  }
-
-  function selectConcluidas() {
-    const concluidas = todasDividas?.filter((divida) => {
-      const { arrayParcelas } = divida;
-
-      const isConcluida = arrayParcelas.every((parcela) => parcela.pago);
-
-      return isConcluida;
-    });
-
-    setDividas(concluidas);
-  }
-
-  function selectNaoConcluidas() {
-    const naoConcluidas = todasDividas?.filter((divida) => {
-      const { arrayParcelas } = divida;
-
-      const isConcluida = arrayParcelas.every((parcela) => parcela.pago);
-
-      return !isConcluida;
-    });
-
-    setDividas(naoConcluidas);
-  }
-
-  function selectVencidas() {
-    const vencidas = todasDividas?.filter((divida) => {
-      const { arrayParcelas } = divida;
-
-      const isVencida = arrayParcelas.some((parcela) => {
-        const hoje = new Date();
-        const dataParcela = new Date(parcela.data);
-        return !parcela.pago && dataParcela < hoje;
-      });
-
-      return isVencida;
-    });
-
-    setDividas(vencidas);
-  }
-
-  function selectAVencer() {
-    const aVencer = todasDividas?.filter((divida) => {
-      const { arrayParcelas } = divida;
-
-      const isAVencer = arrayParcelas.some((parcela) => {
-        const hoje = new Date();
-        const dataParcela = new Date(parcela.data);
-        return !parcela.pago && dataParcela > hoje;
-      });
-
-      return isAVencer;
-    });
-
-    setDividas(aVencer);
-  }
-
-  function selectTodas() {
-    getDividas().then((data) => setDividas(data));
   }
 
   return (

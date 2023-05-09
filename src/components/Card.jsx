@@ -20,16 +20,18 @@ export function Card({ divida, index, handleDeleteTask, setDividas }) {
     }
   `;
 
+  const isPaid = divida.paid;
+
+  const isOld = divida.arrayParcelas.some(
+    (parcela) => !parcela.pago && new Date(parcela.date) < new Date()
+  );
+
   return (
     <Flex
       key={index}
       flexDir="column"
       borderRadius={8}
-      bg={
-        divida.paid
-          ? "green.100"
-          : (new Date(divida.date) < new Date() && "red.100") || "gray.50"
-      }
+      bg={isPaid ? "green.100" : isOld ? "red.100" : "gray.50"}
       p="8"
       animation={`${animation} ease-in-out 0.5s`}
       position="relative"
@@ -44,7 +46,7 @@ export function Card({ divida, index, handleDeleteTask, setDividas }) {
           fontSize="2xl"
         />
       )}
-      {!divida.paid && new Date(divida.date) < new Date() && (
+      {!divida.paid && isOld && (
         <Icon
           as={RiErrorWarningFill}
           position="absolute"
