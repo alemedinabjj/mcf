@@ -77,11 +77,7 @@ export function Menu() {
                 />
               </Box>
 
-              <Flex
-                align={"flex-end"}
-                justify={"space-between"}
-                direction={{ base: "column", md: "row" }}
-              >
+              <Flex align={"flex-end"} justify={"space-between"}>
                 <Box>
                   <FormLabel htmlFor="file">Foto</FormLabel>
                   <InputGroup>
