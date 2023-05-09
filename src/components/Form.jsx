@@ -5,6 +5,7 @@ import {
   Select,
   Text,
   useBreakpointValue,
+  useToast,
 } from "@chakra-ui/react";
 import InputFloating from "./InputFloating";
 import { useCallback } from "react";
@@ -17,6 +18,8 @@ import { formatPrice } from "../utils/formatPrice";
 export function Form({ dividas }) {
   const { user, getDividas, setDividas } = useAuth();
   const { register, handleSubmit, reset } = useForm();
+
+  const toast = useToast();
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -57,6 +60,13 @@ export function Form({ dividas }) {
       getDividas().then((data) => {
         setDividas(data);
       });
+    });
+
+    toast({
+      title: "Dívida cadastrada com sucesso!",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
     });
 
     reset();

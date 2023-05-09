@@ -8,6 +8,7 @@ import {
   Icon,
   useDisclosure,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { BsFillTrash3Fill } from "react-icons/bs";
 
@@ -17,9 +18,18 @@ export function AlertDelete({ handleDeleteTask, divida }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
 
+  const toast = useToast();
+
   function handleDelete() {
     handleDeleteTask();
     onClose();
+
+    toast({
+      title: "Dívida deletada com sucesso",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   }
 
   return (
