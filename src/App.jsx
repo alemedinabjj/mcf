@@ -8,7 +8,6 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>
-        <Header />
         <AppRoutes />
       </AuthProvider>
     </ChakraProvider>

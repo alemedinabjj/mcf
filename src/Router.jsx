@@ -5,12 +5,14 @@ import { SignUp } from "./pages/SignUp";
 import { Login } from "./pages/Login";
 import { useAuth } from "./contexts/AuthContext";
 import { DividaCompartilhada } from "./pages/DividaCompartilhada";
+import { Header } from "./components/Header";
 
 export const AppRoutes = () => {
   const { user } = useAuth();
 
   return (
     <BrowserRouter>
+      {user && <Header />}
       <Routes>
         <Route
           path={"/dividas/:userid"}
