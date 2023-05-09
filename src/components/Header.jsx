@@ -1,6 +1,7 @@
 import { Box, Flex, Icon, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import { BiLogOut } from "react-icons/bi";
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
+import { Menu } from "./Menu";
 
 export function Header({ user, submitLogout }) {
   return (
@@ -37,13 +38,16 @@ export function Header({ user, submitLogout }) {
             </Flex>
           </Flex>
         </Flex>
-        <Icon
-          as={BiLogOut}
-          fontSize="2xl"
-          cursor="pointer"
-          color="red.500"
-          onClick={submitLogout}
-        />
+        <Flex gap={5} alignItems="center">
+          <Menu />
+          <Icon
+            as={BiLogOut}
+            fontSize="2xl"
+            cursor="pointer"
+            color="red.500"
+            onClick={submitLogout}
+          />
+        </Flex>
       </Flex>
     </Box>
   );

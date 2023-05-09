@@ -12,6 +12,7 @@ import { addDivida } from "../api/api";
 import { useAuth } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
+import { formatPrice } from "../utils/formatPrice";
 
 export function Form({ dividas, setDividas }) {
   const { user, getDividas } = useAuth();
@@ -64,6 +65,18 @@ export function Form({ dividas, setDividas }) {
 
     reset();
   }, []);
+
+  const summary = dividas?.reduce((acc, divida) => {
+    const valor = divida.arrayParcelas.reduce((acc, parcela) => {
+      if (!parcela.pago) {
+        if (parcela.date.includes(format(new Date(), "yyyy-MM"))) {
+          return acc + parcela.value;
+        }
+      }
+      return acc;
+    }, 0);
+    return acc + valor;
+  }, 0);
 
   return (
     <Box
@@ -120,9 +133,26 @@ export function Form({ dividas, setDividas }) {
         justifyContent="space-between"
         mt="8"
       >
-        <Text as="span" color="gray.500" fontSize="sm" fontWeight="bold" mr="2">
-          Você tem um total de {dividas?.length} dívidas
-        </Text>
+        <Flex flexDir={"column"} alignItems={"flex-start"}>
+          <Text
+            as="span"
+            color="gray.500"
+            fontSize="sm"
+            fontWeight="bold"
+            mr="2"
+          >
+            Você tem um total de {dividas?.length} dívidas
+          </Text>
+          <Text
+            as="span"
+            color="gray.500"
+            fontSize="sm"
+            fontWeight="bold"
+            mr="2"
+          >
+            Esse mês, o valor a ser pago é de {formatPrice(summary)}
+          </Text>
+        </Flex>
         <Button colorScheme="blue" type="submit">
           Cadastrar
         </Button>

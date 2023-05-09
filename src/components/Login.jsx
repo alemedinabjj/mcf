@@ -1,6 +1,5 @@
 import {
   Button,
-  Flex,
   Input,
   InputGroup,
   InputLeftAddon,
@@ -10,13 +9,27 @@ import {
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { AuthGoogle } from "./AuthGoogle";
-import { AuthGithub } from "./AuthGithub";
+import { FcGoogle } from "react-icons/fc";
+import { AiFillGithub } from "react-icons/ai";
+import { AuthSocial } from "./AuthSocial";
+import { signInWithGithub, signInWithGoogle } from "../api/api";
 
 export function Login() {
   const { login } = useAuth();
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+
+  async function handleSignInGoogle() {
+    const response = await signInWithGoogle();
+
+    console.log(response);
+  }
+
+  async function handleSignInGithub() {
+    const response = await signInWithGithub();
+
+    console.log(response);
+  }
 
   function handleSignIn(data) {
     console.log(data);
@@ -47,8 +60,16 @@ export function Login() {
       <Text as={Link} to="/signup" fontSize="sm" color="blue.500">
         Não tem uma conta? Cadastre-se
       </Text>
-      <AuthGoogle />
-      <AuthGithub />
+      <AuthSocial
+        label="Login com Google"
+        icon={FcGoogle}
+        onClick={handleSignInGoogle}
+      />
+      <AuthSocial
+        label="Login com Github"
+        icon={AiFillGithub}
+        onClick={handleSignInGithub}
+      />
     </Stack>
   );
 }

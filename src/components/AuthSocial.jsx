@@ -1,7 +1,6 @@
 import { Flex, Icon, Text } from "@chakra-ui/react";
-import { AiFillGithub } from "react-icons/ai";
 
-export function AuthGithub() {
+export function AuthSocial({ icon, label, onClick, ...rest }) {
   return (
     <Flex
       as="button"
@@ -14,8 +13,9 @@ export function AuthGithub() {
       color="gray.700"
       fontWeight="bold"
       _hover={{ bg: "gray.200", color: "gray.600" }}
+      onClick={onClick}
     >
-      <Icon as={AiFillGithub} fontSize="xl" />
+      <Icon as={icon} fontSize="xl" />
       <Text
         as="span"
         ml="2"
@@ -23,7 +23,7 @@ export function AuthGithub() {
         fontWeight="bold"
         _hover={{ color: "gray.700" }}
       >
-        Entrar com Github
+        {label}
       </Text>
     </Flex>
   );

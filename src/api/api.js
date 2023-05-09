@@ -1,5 +1,9 @@
-import { auth } from "../config/firebaseConfig";
-import { db } from "../config/firebaseConfig";
+import {
+  auth,
+  githubAuthProvider,
+  googleAuthProvider,
+} from "../config/firebaseConfig";
+import { db, storage } from "../config/firebaseConfig";
 
 async function signUpWithEmailAndPasswordAndName(email, senha, displayName) {
   try {
@@ -10,6 +14,13 @@ async function signUpWithEmailAndPasswordAndName(email, senha, displayName) {
     });
     // Log para depuração
     console.log("O usuário criado foi: ", resultado.user);
+    // Insere o usuário na tabela "user"
+    await inserirUsuarioNoBancoDeDados(
+      resultado.user.uid,
+      email,
+      displayName,
+      resultado.user.photoURL
+    );
     return resultado;
   } catch (error) {
     // Se ocorrer um erro ao criar o usuário, o erro será capturado aqui
@@ -18,10 +29,57 @@ async function signUpWithEmailAndPasswordAndName(email, senha, displayName) {
   }
 }
 
+async function inserirUsuarioNoBancoDeDados(uid, email, displayName, photoURL) {
+  try {
+    await db.collection("users").doc(uid).set({
+      email: email,
+      displayName: displayName,
+      photoURL: null,
+    });
+    console.log("Usuário inserido no banco de dados");
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 async function signInWithEmailAndPassword(email, senha) {
   try {
     const resultado = await auth.signInWithEmailAndPassword(email, senha);
     console.log(resultado);
+    return resultado;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+async function signInWithGoogle() {
+  try {
+    const resultado = await auth.signInWithPopup(googleAuthProvider);
+    console.log(resultado);
+    await inserirUsuarioNoBancoDeDados(
+      resultado.user.uid,
+      resultado.user.email,
+      resultado.user.displayName,
+      resultado.user.photoURL
+    );
+    return resultado;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+async function signInWithGithub() {
+  try {
+    const resultado = await auth.signInWithPopup(githubAuthProvider);
+    console.log(resultado);
+    await inserirUsuarioNoBancoDeDados(
+      resultado.user.uid,
+      resultado.user.email,
+      resultado.user.displayName,
+      resultado.user.photoURL
+    );
     return resultado;
   } catch (error) {
     console.error(error);
@@ -160,12 +218,25 @@ async function updateParcela(dividaId, updatedParcela) {
   return newDivida;
 }
 
-//usage with handleUpdateParcela function
-// const handleUpdateParcela = async (dividaId, parcelaId, pago) => {
-//   const updatedParcela = {
-//     id: parcelaId,
-//     pago: pago,
-//   };
+async function updateUser(userId, file) {
+  const userRef = db.collection("users").doc(userId);
+
+  const storageRef = storage.ref().child(`users/${userId}/profilePicture.jpg`);
+
+  try {
+    const snapshot = await storageRef.put(file);
+    const downloadURL = await snapshot.ref.getDownloadURL();
+    await userRef.set({ photoURL: downloadURL }, { merge: true });
+    console.log("Imagem do usuário atualizada com sucesso!");
+    await auth.currentUser.updateProfile({
+      photoURL: downloadURL,
+    });
+    await auth.currentUser.reload();
+    console.log("Dados do usuário atualizados com sucesso!");
+  } catch (error) {
+    console.error("Erro ao atualizar imagem do usuário:", error);
+  }
+}
 
 export {
   signUpWithEmailAndPasswordAndName,
@@ -175,4 +246,7 @@ export {
   getDividasByUser,
   deleteDivida,
   updateParcela,
+  signInWithGoogle,
+  signInWithGithub,
+  updateUser,
 };
