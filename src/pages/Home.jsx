@@ -7,34 +7,17 @@ import { Card } from "../components/Card";
 import { Form } from "../components/Form";
 
 export function Home() {
-  const { user, handleLogout, getDividas } = useAuth();
-  const [dividas, setDividas] = useState([]);
+  const { user, handleLogout, handleDeleteTask } = useAuth();
+  const { dividas } = useAuth();
 
   function submitLogout() {
     handleLogout();
   }
 
-  useEffect(() => {
-    if (user) {
-      getDividas().then((data) => {
-        setDividas(data);
-      });
-    }
-  }, [user]);
-
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true,
   });
-
-  function handleDeleteTask(dividaId) {
-    deleteDivida(user?.uid, dividaId).then(() => {
-      getDividas().then((data) => {
-        setDividas(data);
-      });
-    }),
-      console.log("dividaId", dividaId);
-  }
 
   return (
     <>
@@ -59,7 +42,7 @@ export function Home() {
           flexDir="column"
           gap="2rem"
         >
-          <Form dividas={dividas} setDividas={setDividas} />
+          <Form dividas={dividas} />
           <Grid
             templateColumns={
               isWideVersion ? "repeat(3, 1fr)" : "repeat(1, 1fr)"
@@ -70,12 +53,7 @@ export function Home() {
             mx="auto"
           >
             {dividas?.map((divida, index) => (
-              <Card
-                key={index}
-                divida={divida}
-                handleDeleteTask={handleDeleteTask}
-                setDividas={setDividas}
-              />
+              <Card key={index} divida={divida} />
             ))}
           </Grid>
         </Flex>

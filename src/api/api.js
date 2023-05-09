@@ -238,6 +238,84 @@ async function updateUser(userId, file) {
   }
 }
 
+async function shareDivida(dividaId, email) {
+  try {
+    const dividaRef = db
+      .collection("dividas")
+      .doc(auth.currentUser.uid)
+      .collection("userDividas")
+      .doc(dividaId);
+
+    const dividaDoc = await dividaRef.get();
+
+    if (!dividaDoc.exists) {
+      console.error("Dívida não encontrada!");
+      return;
+    }
+
+    const divida = dividaDoc.data();
+
+    const user = await db.collection("users").where("email", "==", email).get();
+
+    if (user.empty) {
+      console.error("Usuário não encontrado!");
+      return;
+    }
+
+    const userId = user.docs[0].id;
+
+    await db
+      .collection("dividas")
+      .doc(userId)
+      .collection("sharedDividas")
+      .doc(dividaId)
+      .set({
+        ...divida,
+        sharedBy: auth.currentUser.displayName,
+      });
+
+    console.log(`Dívida compartilhada com sucesso com o usuário ${email}!`);
+
+    await dividaRef.update({
+      shared: true,
+      sharedWith: email,
+    });
+  } catch (error) {
+    console.error("Erro ao compartilhar dívida:", error);
+  }
+}
+
+async function getDividasSharedByUser(userId) {
+  try {
+    const sharedDividasRef = db
+      .collection("dividas")
+      .doc(userId)
+      .collection("sharedDividas");
+
+    const querySnapshot = await sharedDividasRef.get();
+
+    const dividas = [];
+
+    querySnapshot.forEach((doc) => {
+      dividas.push({
+        id: doc.id,
+        shared: true,
+        sharedBy: doc.data().sharedBy,
+        ...doc.data(),
+      });
+    });
+
+    console.log("Dívidas compartilhadas com o usuário:", dividas);
+
+    return dividas;
+  } catch (error) {
+    console.error(
+      "Erro ao buscar dívidas compartilhadas com o usuário:",
+      error
+    );
+  }
+}
+
 export {
   signUpWithEmailAndPasswordAndName,
   signInWithEmailAndPassword,
@@ -249,4 +327,6 @@ export {
   signInWithGoogle,
   signInWithGithub,
   updateUser,
+  shareDivida,
+  getDividasSharedByUser,
 };

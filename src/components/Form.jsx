@@ -14,8 +14,8 @@ import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { formatPrice } from "../utils/formatPrice";
 
-export function Form({ dividas, setDividas }) {
-  const { user, getDividas } = useAuth();
+export function Form({ dividas }) {
+  const { user, getDividas, setDividas } = useAuth();
   const { register, handleSubmit, reset } = useForm();
 
   const isWideVersion = useBreakpointValue({
@@ -25,8 +25,6 @@ export function Form({ dividas, setDividas }) {
 
   const handleCreateTask = useCallback((data) => {
     const userId = user?.uid;
-
-    console.log("data", data);
 
     const newDivida = {
       id: Date.now(),
@@ -56,9 +54,7 @@ export function Form({ dividas, setDividas }) {
     };
 
     addDivida(userId, newDivida).then(() => {
-      console.log(newDivida);
       getDividas().then((data) => {
-        // setTodasDividas(data);
         setDividas(data);
       });
     });

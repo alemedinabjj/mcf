@@ -1,6 +1,10 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { auth } from "../config/firebaseConfig";
-import { getDividasByUser } from "../api/api";
+import {
+  deleteDivida,
+  getDividasByUser,
+  getDividasSharedByUser,
+} from "../api/api";
 
 const AuthContext = createContext();
 
@@ -14,11 +18,7 @@ export function AuthProvider({ children }) {
 
   const [dividas, setDividas] = useState([]);
 
-  console.log(user);
-
   async function login(data) {
-    console.log(data);
-
     try {
       const user = await auth.signInWithEmailAndPassword(
         data.email,
@@ -42,11 +42,22 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("user");
   }
 
-  async function getDividas() {
-    console.log("user", user.uid);
-    const allDividas = await getDividasByUser(user.uid);
+  function handleDeleteTask(dividaId) {
+    deleteDivida(user?.uid, dividaId).then(() => {
+      getDividas().then((data) => {
+        setDividas(data);
+      });
+    }),
+      console.log("dividaId", dividaId);
+  }
 
-    return allDividas;
+  async function getDividas() {
+    const allDividas = await getDividasByUser(user.uid);
+    const sharedDividas = await getDividasSharedByUser(user.uid);
+
+    setDividas([...allDividas, ...sharedDividas]);
+
+    return [...allDividas, ...sharedDividas];
   }
 
   useEffect(() => {
@@ -69,9 +80,26 @@ export function AuthProvider({ children }) {
     return () => unsubscribe();
   }, [user]);
 
+  useEffect(() => {
+    if (user) {
+      getDividas().then((data) => {
+        setDividas(data);
+      });
+    }
+  }, [user]);
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, login, handleLogout, user, getDividas }}
+      value={{
+        isAuthenticated,
+        login,
+        handleLogout,
+        user,
+        getDividas,
+        dividas,
+        setDividas,
+        handleDeleteTask,
+      }}
     >
       {children}
     </AuthContext.Provider>

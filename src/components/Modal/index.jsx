@@ -22,11 +22,9 @@ import { updateParcela } from "../../api/api";
 import { List } from "./List";
 import { useEffect } from "react";
 
-export function Modal({ divida, setDividas }) {
+export function Modal({ divida }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { getDividas } = useAuth();
-
-  console.log("divida", divida);
+  const { setDividas } = useAuth();
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -51,8 +49,6 @@ export function Modal({ divida, setDividas }) {
     },
     { pago: 0, pendente: 0 }
   );
-
-  console.log("valueTotal", valueTotal);
 
   return (
     <>

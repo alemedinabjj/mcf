@@ -7,8 +7,12 @@ import { ptBR } from "date-fns/locale";
 import { AlertDelete } from "./Alert/AlertDelete";
 import { BsFillPatchCheckFill } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
+import { SharedAlert } from "./Alert/SharedAlert";
+import { useAuth } from "../contexts/AuthContext";
 
-export function Card({ divida, index, handleDeleteTask, setDividas }) {
+export function Card({ divida, index }) {
+  const { handleDeleteTask } = useAuth();
+
   const animation = keyframes`
     from {
       opacity: 0;
@@ -56,6 +60,33 @@ export function Card({ divida, index, handleDeleteTask, setDividas }) {
           fontSize="2xl"
         />
       )}
+      {divida.shared && divida.sharedBy && (
+        <Text
+          fontSize="sm"
+          fontWeight="bold"
+          letterSpacing="tight"
+          color="blue.500"
+          position="absolute"
+          top="1"
+          left="4"
+        >
+          Divida compartilhada de {divida.sharedBy}
+        </Text>
+      )}
+
+      {divida.shared && !divida.sharedBy && (
+        <Text
+          fontSize="sm"
+          fontWeight="bold"
+          letterSpacing="tight"
+          color="blue.500"
+          position="absolute"
+          top="1"
+          left="4"
+        >
+          Divida compartilhada
+        </Text>
+      )}
 
       <Text fontSize="xl" fontWeight="bold" letterSpacing="tight">
         {divida.name}
@@ -68,8 +99,10 @@ export function Card({ divida, index, handleDeleteTask, setDividas }) {
           locale: ptBR,
         })}
       </Text>
-      <Modal divida={divida} setDividas={setDividas} />
-      <Flex mt="8" justify="flex-end" align="center">
+      <Modal divida={divida} />
+      <Flex mt="8" justify="flex-end" align="center" gap={5}>
+        <SharedAlert divida={divida} />
+
         <AlertDelete
           divida={divida}
           handleDeleteTask={() => handleDeleteTask(divida.id)}
