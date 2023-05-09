@@ -159,7 +159,20 @@ async function deleteDivida(userId, dividaId) {
       .doc(userId)
       .collection("userDividas");
 
+    const sharedDividasRef = db
+      .collection("dividas")
+      .doc(userId)
+      .collection("sharedDividas");
+
     const querySnapshot = await dividaRef.get();
+    const sharedQuerySnapshot = await sharedDividasRef.get();
+
+    sharedQuerySnapshot.forEach((doc) => {
+      if (doc.id === dividaId) {
+        doc.ref.delete();
+        console.log("Dívida compartilhada deletada com sucesso!");
+      }
+    });
 
     querySnapshot.forEach((doc) => {
       if (doc.id === dividaId) {
