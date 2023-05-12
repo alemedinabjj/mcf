@@ -2,9 +2,18 @@
 
 Meu Controle Financeiro é uma aplicação web que permite aos usuários gerenciarem suas finanças de forma fácil e eficiente. A aplicação apresenta uma interface simples e intuitiva, com recursos de **autenticação por meio de contas do Google e Github**, além da criação de conta com e-mail e senha para garantir a **segurança dos dados**.
 
-![Tela de login](https://i.imgur.com/fake-login.png)
-![Tela de criação de conta](https://i.imgur.com/fake-criar-conta.png)
-![Tela principal](https://i.imgur.com/fake-tela-principal.png)
+<div align="center">
+  <img src="https://i.imgur.com/rXxpydH.png" width="400"/>
+  <img src="https://i.imgur.com/ycSENhy.png" width="400"/>
+</div>
+<div align="center">
+  <img src="https://i.imgur.com/C1m0XgO.png" width="400"/>
+  <img src="https://i.imgur.com/dagU2zG.png" width="400"/>
+</div>
+<div align="center">
+  <img src="https://i.imgur.com/Lg6rBhn.png" width="400"/>
+</div>
+
 
 Uma das principais funcionalidades da aplicação é a **criação e compartilhamento de dívidas** entre os usuários. Com essa funcionalidade, é possível criar dívidas e dividi-las entre amigos, colegas de trabalho ou membros da família, facilitando o gerenciamento de despesas compartilhadas.
 
@@ -16,7 +25,7 @@ Com Meu Controle Financeiro, os usuários podem gerenciar suas finanças de form
 
 ## Como usar
 
-Para utilizar Meu Controle Financeiro, basta acessar a página [https://www.meucontrolefinanceiro.com.br](https://www.meucontrolefinanceiro.com.br) e fazer login com sua conta do Google, Github ou criar uma conta com e-mail e senha.
+Para utilizar Meu Controle Financeiro, basta acessar a página [https://mcf-sage.vercel.app/](https://mcf-sage.vercel.app/) e fazer login com sua conta do Google, Github ou criar uma conta com e-mail e senha.
 
 ## Como contribuir
 
