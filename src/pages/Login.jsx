@@ -18,9 +18,12 @@ export function Login() {
         w="100%"
         p={4}
         color={useColorModeValue("gray.700", "gray.100")}
+        position="relative"
+        zIndex={5}
+        opacity="0.9"
       >
         <Text as="h1" fontSize="4xl" fontWeight="bold" textAlign="center">
-          Entre com sua conta
+          Login
         </Text>
       </Box>
       <Box

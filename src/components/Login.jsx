@@ -15,6 +15,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
 import { AuthSocial } from "./AuthSocial";
 import { signInWithGithub, signInWithGoogle } from "../api/api";
+import { Background } from "../global/Background";
 
 export function Login() {
   const { login } = useAuth();
@@ -40,43 +41,48 @@ export function Login() {
     navigate("/");
   }
   return (
-    <Stack spacing={4} as="form" onSubmit={handleSubmit(handleSignIn)}>
-      <InputGroup>
-        <InputLeftAddon children="E-mail" minWidth="120px" />
-        <Input type="text" placeholder="seu email" {...register("email")} />
-      </InputGroup>
+    <>
+      <Background />
+      <Stack spacing={4} as="form" onSubmit={handleSubmit(handleSignIn)}>
+        <InputGroup>
+          <InputLeftAddon children="E-mail" minWidth="120px" />
+          <Input type="text" placeholder="seu email" {...register("email")} />
+        </InputGroup>
 
-      <InputGroup>
-        <InputLeftAddon children="Senha" minWidth="120px" />
-        <Input
-          type="password"
-          placeholder="sua senha"
-          {...register("password")}
+        <InputGroup>
+          <InputLeftAddon children="Senha" minWidth="120px" />
+          <Input
+            type="password"
+            placeholder="sua senha"
+            {...register("password")}
+          />
+        </InputGroup>
+
+        <Button type="submit" colorScheme="blue" size="lg" fontSize="md">
+          Faça Login
+        </Button>
+
+        <Text
+          as={Link}
+          to="/signup"
+          fontSize="sm"
+          color={useColorModeValue("blue.500", "blue.200")}
+          posisiton="relative"
+          zIndex={2}
+        >
+          Não tem uma conta? Cadastre-se
+        </Text>
+        <AuthSocial
+          label="Login com Google"
+          icon={FcGoogle}
+          onClick={handleSignInGoogle}
         />
-      </InputGroup>
-
-      <Button type="submit" colorScheme="blue" size="lg" fontSize="md">
-        Faça Login
-      </Button>
-
-      <Text
-        as={Link}
-        to="/signup"
-        fontSize="sm"
-        color={useColorModeValue("blue.500", "blue.200")}
-      >
-        Não tem uma conta? Cadastre-se
-      </Text>
-      <AuthSocial
-        label="Login com Google"
-        icon={FcGoogle}
-        onClick={handleSignInGoogle}
-      />
-      <AuthSocial
-        label="Login com Github"
-        icon={AiFillGithub}
-        onClick={handleSignInGithub}
-      />
-    </Stack>
+        <AuthSocial
+          label="Login com Github"
+          icon={AiFillGithub}
+          onClick={handleSignInGithub}
+        />
+      </Stack>
+    </>
   );
 }

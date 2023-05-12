@@ -6,6 +6,8 @@ export function AuthSocial({ icon, label, onClick, ...rest }) {
       as="button"
       align="center"
       justify="center"
+      posisiton="relative"
+      zIndex={2}
       w="100%"
       p={2}
       bg={useColorModeValue("white", "gray.900")}
