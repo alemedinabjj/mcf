@@ -16,8 +16,8 @@ import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { formatPrice } from "../utils/formatPrice";
 
-export function Form({ dividas }) {
-  const { user, getDividas, setDividas } = useAuth();
+export function Form({ handleCloseModal }) {
+  const { user, getDividas, setDividas, dividas } = useAuth();
   const { register, handleSubmit, reset } = useForm();
 
   const toast = useToast();
@@ -73,24 +73,11 @@ export function Form({ dividas }) {
     reset();
   }, []);
 
-  const summary = dividas?.reduce((acc, divida) => {
-    const valor = divida.arrayParcelas.reduce((acc, parcela) => {
-      if (!parcela.pago) {
-        if (parcela.date.includes(format(new Date(), "yyyy-MM"))) {
-          return acc + parcela.value;
-        }
-      }
-      return acc;
-    }, 0);
-    return acc + valor;
-  }, 0);
-
   return (
     <Box
       flex="1"
       borderRadius={8}
       w="100%"
-      bg={useColorModeValue("gray.100", "gray.900")}
       color={useColorModeValue("gray.500", "gray.200")}
       p="8"
       as="form"
@@ -105,6 +92,7 @@ export function Form({ dividas }) {
       <Flex
         w="100%"
         align="center"
+        flexDir="column"
         gap={isWideVersion ? "4" : "6"}
         direction={isWideVersion ? "row" : "column"}
       >
@@ -141,17 +129,14 @@ export function Form({ dividas }) {
         justifyContent="space-between"
         mt="8"
       >
-        <Flex flexDir={"column"} alignItems={"flex-start"}>
-          <Text as="span" fontSize="sm" fontWeight="bold" mr="2">
-            Você tem um total de {dividas?.length} dívidas
-          </Text>
-          <Text as="span" fontSize="sm" fontWeight="bold" mr="2">
-            Esse mês, o valor a ser pago é de {formatPrice(summary)}
-          </Text>
+        <Flex gap={2} ml="auto">
+          <Button colorScheme="blue" type="submit">
+            Cadastrar
+          </Button>
+          <Button colorScheme="blue" onClick={handleCloseModal}>
+            Fechar
+          </Button>
         </Flex>
-        <Button colorScheme="blue" type="submit">
-          Cadastrar
-        </Button>
       </Flex>
     </Box>
   );

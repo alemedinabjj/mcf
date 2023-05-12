@@ -1,6 +1,7 @@
 import { useAuth } from "../contexts/AuthContext";
 import {
   Box,
+  Divider,
   Flex,
   Grid,
   useBreakpointValue,
@@ -13,6 +14,8 @@ import { Card } from "../components/Card";
 import { Form } from "../components/Form";
 import { Link } from "react-router-dom";
 import { Background } from "../global/Background";
+import { CreateNewDivida } from "../components/CreateNewDivida";
+import { Summary } from "../components/Summary";
 
 export function Home() {
   const { dividas, sharedDividas, user } = useAuth();
@@ -45,8 +48,15 @@ export function Home() {
           flexDir="column"
           gap="2rem"
         >
-          <Form dividas={dividas} />
-          <Link to={`/dividas/${user.uid}`}>Shared</Link>
+          <Flex alignItems="center" gap={3}>
+            {" "}
+            <Link to={`/dividas/${user.uid}`}>Dívidas compartilhadas</Link>
+            <CreateNewDivida />
+          </Flex>
+          <Summary />
+
+          <Divider />
+
           <Grid
             templateColumns={
               isWideVersion ? "repeat(3, 1fr)" : "repeat(1, 1fr)"
