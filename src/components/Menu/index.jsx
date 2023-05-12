@@ -20,6 +20,7 @@ import {
   Stack,
   Textarea,
   useDisclosure,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
@@ -27,7 +28,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { updateUser } from "../../api/api";
-import { GrConfigure } from "react-icons/gr";
+import { FcDataConfiguration } from "react-icons/fc";
 
 export function Menu() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,11 +50,12 @@ export function Menu() {
   return (
     <>
       <Icon
-        as={GrConfigure}
+        as={FcDataConfiguration}
         fontSize="xl"
         onClick={onOpen}
         cursor={"pointer"}
       />
+
       <Drawer
         isOpen={isOpen}
         placement="right"

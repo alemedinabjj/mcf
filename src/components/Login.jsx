@@ -5,6 +5,8 @@ import {
   InputLeftAddon,
   Stack,
   Text,
+  useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -57,7 +59,12 @@ export function Login() {
         Faça Login
       </Button>
 
-      <Text as={Link} to="/signup" fontSize="sm" color="blue.500">
+      <Text
+        as={Link}
+        to="/signup"
+        fontSize="sm"
+        color={useColorModeValue("blue.500", "blue.200")}
+      >
         Não tem uma conta? Cadastre-se
       </Text>
       <AuthSocial

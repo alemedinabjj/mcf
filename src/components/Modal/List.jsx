@@ -1,4 +1,10 @@
-import { Checkbox, Grid, Text, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Checkbox,
+  Grid,
+  Text,
+  useBreakpointValue,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { updateParcela, updateSharedDivida } from "../../api/api";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -33,13 +39,18 @@ export function List({ divida, index, parcela, setDividas }) {
     <Grid
       key={index}
       w="100%"
-      bg={
+      bg={useColorModeValue(
         parcela.pago
           ? "green.100"
           : new Date(parcela.date) < new Date()
           ? "red.100"
-          : "gray.100"
-      }
+          : "gray.100",
+        parcela.pago
+          ? "green.700"
+          : new Date(parcela.date) < new Date()
+          ? "red.700"
+          : "gray.800"
+      )}
       paddingBlock={isWideVersion ? "6" : "0"}
       templateColumns="1fr 1fr 1fr .3fr"
       borderRadius={2}

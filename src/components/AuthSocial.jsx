@@ -1,4 +1,4 @@
-import { Flex, Icon, Text } from "@chakra-ui/react";
+import { Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react";
 
 export function AuthSocial({ icon, label, onClick, ...rest }) {
   return (
@@ -8,21 +8,18 @@ export function AuthSocial({ icon, label, onClick, ...rest }) {
       justify="center"
       w="100%"
       p={2}
-      bg="white"
+      bg={useColorModeValue("white", "gray.900")}
       borderRadius="md"
-      color="gray.700"
+      color={useColorModeValue("gray.700", "gray.200")}
       fontWeight="bold"
-      _hover={{ bg: "gray.200", color: "gray.600" }}
+      _hover={{
+        bg: useColorModeValue("gray.100", "gray.700"),
+        color: useColorModeValue("gray.700", "gray.200"),
+      }}
       onClick={onClick}
     >
       <Icon as={icon} fontSize="xl" />
-      <Text
-        as="span"
-        ml="2"
-        fontSize="md"
-        fontWeight="bold"
-        _hover={{ color: "gray.700" }}
-      >
+      <Text as="span" ml="2" fontSize="md" fontWeight="bold">
         {label}
       </Text>
     </Flex>

@@ -6,6 +6,7 @@ import {
   Text,
   useBreakpointValue,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import InputFloating from "./InputFloating";
 import { useCallback } from "react";
@@ -89,7 +90,8 @@ export function Form({ dividas }) {
       flex="1"
       borderRadius={8}
       w="100%"
-      bg="gray.50"
+      bg={useColorModeValue("white", "gray.900")}
+      color={useColorModeValue("gray.500", "gray.200")}
       p="8"
       as="form"
       onSubmit={handleSubmit(handleCreateTask)}
@@ -140,22 +142,10 @@ export function Form({ dividas }) {
         mt="8"
       >
         <Flex flexDir={"column"} alignItems={"flex-start"}>
-          <Text
-            as="span"
-            color="gray.500"
-            fontSize="sm"
-            fontWeight="bold"
-            mr="2"
-          >
+          <Text as="span" fontSize="sm" fontWeight="bold" mr="2">
             Você tem um total de {dividas?.length} dívidas
           </Text>
-          <Text
-            as="span"
-            color="gray.500"
-            fontSize="sm"
-            fontWeight="bold"
-            mr="2"
-          >
+          <Text as="span" fontSize="sm" fontWeight="bold" mr="2">
             Esse mês, o valor a ser pago é de {formatPrice(summary)}
           </Text>
         </Flex>

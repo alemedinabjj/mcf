@@ -1,4 +1,10 @@
-import { Flex, Icon, Text, keyframes } from "@chakra-ui/react";
+import {
+  Flex,
+  Icon,
+  Text,
+  keyframes,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { Modal } from "./Modal";
 import { BsFillTrash3Fill } from "react-icons/bs";
 import { formatPrice } from "../utils/formatPrice";
@@ -30,12 +36,18 @@ export function Card({ divida, index }) {
     (parcela) => !parcela.pago && new Date(parcela.date) < new Date()
   );
 
+  const bg = useColorModeValue("white", "gray.900");
+  const bgCondition = isPaid ? "green.100" : isOld ? "red.100" : bg;
+  const color = useColorModeValue("gray.700", "gray.200");
+  const colorCondition = isPaid ? "green.500" : isOld ? "red.500" : color;
+
   return (
     <Flex
       key={index}
       flexDir="column"
       borderRadius={8}
-      bg={isPaid ? "green.100" : isOld ? "red.100" : "gray.50"}
+      color={colorCondition}
+      bg={bgCondition}
       p="8"
       animation={`${animation} ease-in-out 0.5s`}
       position="relative"

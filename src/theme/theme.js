@@ -4,7 +4,36 @@ const activeLabelStyles = {
   transform: "scale(0.85) translateY(-24px)",
 };
 
+const config = {
+  initialColorMode: "dark",
+  useSystemColorMode: false,
+};
+
+const light = {
+  color: "gray.800",
+  bg: "gray.100",
+  borderColor: "gray.300",
+  placeholderColor: "gray.500",
+};
+
+const dark = {
+  color: "gray.100",
+  bg: "gray.900",
+  borderColor: "gray.600",
+  placeholderColor: "gray.400",
+};
+
+//usage example: <Box bg={useColorModeValue('red.200', 'red.900')} />
+
 export const theme = extendTheme({
+  config,
+  colors: {
+    light,
+    dark,
+  },
+
+  //usage example: <Box bg={useColorModeValue('red.200', 'red.900')} />
+
   components: {
     Form: {
       variants: {

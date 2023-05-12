@@ -5,6 +5,7 @@ import {
   FormLabel,
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
+import { useColorModeValue } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
 function InputFloating(
@@ -34,7 +35,7 @@ function InputFloating(
       />
       <FormLabel
         color={color ? color : "gray.400"}
-        bgColor={"gray.50!important"}
+        bgColor={useColorModeValue("gray.50!important", "gray.900!important")}
       >
         {label}
       </FormLabel>

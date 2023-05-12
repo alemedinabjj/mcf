@@ -1,5 +1,11 @@
 import { useAuth } from "../contexts/AuthContext";
-import { Box, Flex, Grid, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  useBreakpointValue,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { deleteDivida } from "../api/api";
 import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
@@ -18,11 +24,10 @@ export function Home() {
   return (
     <>
       <Box
-        bg="gray.100"
         w="100%"
         p={4}
         minH="calc(100vh - 64px)"
-        color="gray.500"
+        color={useColorModeValue("gray.700", "gray.100")}
         display="flex"
         alignItems="flex-start"
         justifyContent="center"

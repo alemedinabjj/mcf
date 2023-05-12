@@ -1,22 +1,34 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { Login as LoginForm } from "../components/Login";
 
 export function Login() {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <>
-      <Box bg="gray.200" w="100%" p={4} color="white">
-        <Text
-          as="h1"
-          fontSize="4xl"
-          fontWeight="bold"
-          textAlign="center"
-          color="gray.600"
-        >
+      <Button onClick={toggleColorMode}>
+        Toggle {colorMode === "light" ? "Dark" : "Light"}
+      </Button>
+
+      <Box
+        bg={useColorModeValue("gray.100", "gray.900")}
+        w="100%"
+        p={4}
+        color={useColorModeValue("gray.700", "gray.100")}
+      >
+        <Text as="h1" fontSize="4xl" fontWeight="bold" textAlign="center">
           Entre com sua conta
         </Text>
       </Box>
       <Box
-        bg="gray.100"
+        bg={useColorModeValue("gray.100", "gray.800")}
         w="100%"
         p={4}
         minH="calc(100vh - 64px)"

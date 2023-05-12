@@ -12,6 +12,7 @@ import {
   Flex,
   Grid,
   useBreakpointValue,
+  useColorModeValue,
   Checkbox,
 } from "@chakra-ui/react";
 import { formatPrice } from "../../utils/formatPrice";
@@ -65,17 +66,17 @@ export function Modal({ divida }) {
       <ChakraModal isOpen={isOpen} onClose={onClose} size="3xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
+          <ModalHeader bg={useColorModeValue("gray.100", "gray.800")}>
             <h1>Detalhes da dívida - {divida.name} </h1>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody display="flex" flexDirection="column">
             <Flex
-              bg="gray.100"
               p={isWideVersion ? "8" : "2"}
               borderRadius={2}
               justify="space-between"
               align="center"
+              bg={useColorModeValue("gray.100", "gray.800")}
             >
               <Text as="h2">
                 Valor da dívida {formatPrice(valueTotal.pendente)}
