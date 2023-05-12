@@ -71,6 +71,7 @@ export function Form({ handleCloseModal }) {
     });
 
     reset();
+    handleCloseModal();
   }, []);
 
   return (
