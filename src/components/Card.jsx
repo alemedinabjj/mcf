@@ -36,7 +36,7 @@ export function Card({ divida, index }) {
     (parcela) => !parcela.pago && new Date(parcela.date) < new Date()
   );
 
-  const bg = useColorModeValue("white", "gray.900");
+  const bg = useColorModeValue("gray.100", "gray.900");
   const bgCondition = isPaid ? "green.100" : isOld ? "red.100" : bg;
   const color = useColorModeValue("gray.700", "gray.200");
   const colorCondition = isPaid ? "green.500" : isOld ? "red.500" : color;

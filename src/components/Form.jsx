@@ -90,7 +90,7 @@ export function Form({ dividas }) {
       flex="1"
       borderRadius={8}
       w="100%"
-      bg={useColorModeValue("white", "gray.900")}
+      bg={useColorModeValue("gray.100", "gray.900")}
       color={useColorModeValue("gray.500", "gray.200")}
       p="8"
       as="form"
