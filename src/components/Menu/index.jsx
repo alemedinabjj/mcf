@@ -21,6 +21,8 @@ import {
   Textarea,
   useDisclosure,
   useColorModeValue,
+  FormControl,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
@@ -29,6 +31,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { updateUser } from "../../api/api";
 import { FcDataConfiguration } from "react-icons/fc";
+import { FaMoon, FaSun } from "react-icons/fa";
+import { useColorMode } from "@chakra-ui/react";
 
 export function Menu() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,6 +40,7 @@ export function Menu() {
   const [photo, setPhoto] = React.useState(null);
   const { user } = useAuth();
   const { register, handleSubmit, formState, setValue } = useForm({});
+  const { colorMode, toggleColorMode } = useColorMode();
 
   function handleEditUser(data) {
     console.log(photo);
@@ -100,6 +105,27 @@ export function Menu() {
                 </Box>
                 <Avatar name={user?.displayName} src={user?.photoURL} />
               </Flex>
+              <FormControl display="flex" alignItems="center">
+                <FormLabel
+                  htmlFor="theme-mode"
+                  mb="0"
+                  onClick={toggleColorMode}
+                  cursor="pointer"
+                  color={useColorModeValue("yellow", "gray.100")}
+                >
+                  {colorMode === "light" ? (
+                    <Flex alignItems="center">
+                      <Icon as={FaSun} />
+                      <Text ml="2">Light</Text>
+                    </Flex>
+                  ) : (
+                    <Flex alignItems="center">
+                      <Icon as={FaMoon} />
+                      <Text ml="2">Dark</Text>
+                    </Flex>
+                  )}
+                </FormLabel>
+              </FormControl>
             </Stack>
           </DrawerBody>
 

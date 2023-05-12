@@ -33,17 +33,6 @@ export function Header() {
       p={4}
       color={useColorModeValue("gray.700", "white")}
     >
-      <FormControl display="flex" alignItems="center">
-        <FormLabel
-          htmlFor="theme-mode"
-          mb="0"
-          onClick={toggleColorMode}
-          cursor="pointer"
-          color={useColorModeValue("yellow", "gray.100")}
-        >
-          {colorMode === "light" ? <Icon as={FaSun} /> : <Icon as={FaMoon} />}
-        </FormLabel>
-      </FormControl>
       <Flex
         as="header"
         w="100%"
