@@ -26,11 +26,13 @@ export function SignUp() {
         </Text>
       </Box>
       <Box
-        bg="gray.100"
+        mt="4"
+        bg={useColorModeValue("gray.100", "gray.800")}
+        maxW="400px"
+        mx="auto"
         w="100%"
         p={4}
-        minH="calc(100vh - 64px)"
-        color="gray.500"
+        color={useColorModeValue("gray.700", "gray.100")}
         display="flex"
         alignItems="flex-start"
         justifyContent="center"
