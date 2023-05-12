@@ -13,10 +13,6 @@ export function Login() {
 
   return (
     <>
-      <Button onClick={toggleColorMode}>
-        Toggle {colorMode === "light" ? "Dark" : "Light"}
-      </Button>
-
       <Box
         bg={useColorModeValue("gray.100", "gray.900")}
         w="100%"
