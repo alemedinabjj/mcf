@@ -107,10 +107,22 @@ export function Card({ divida, index }) {
         {formatPrice(divida.value)}
       </Text>
       <Text>
+        de{" "}
         {format(new Date(divida.date), "dd 'de' MMMM 'de' yyyy", {
           locale: ptBR,
         })}
       </Text>
+      <Text>
+        à{" "}
+        {format(
+          new Date(divida.arrayParcelas[divida.arrayParcelas.length - 1].date),
+          "dd 'de' MMMM 'de' yyyy",
+          {
+            locale: ptBR,
+          }
+        )}
+      </Text>
+
       <Modal divida={divida} />
       <Flex mt="8" justify="flex-end" align="center" gap={5}>
         <SharedAlert divida={divida} />
