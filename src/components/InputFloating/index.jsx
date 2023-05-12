@@ -35,7 +35,7 @@ function InputFloating(
       />
       <FormLabel
         color={color ? color : "gray.400"}
-        bgColor={useColorModeValue("gray.50!important", "gray.900!important")}
+        bgColor={useColorModeValue("gray.100!important", "gray.900!important")}
       >
         {label}
       </FormLabel>
