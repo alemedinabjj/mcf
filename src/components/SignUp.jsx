@@ -62,7 +62,14 @@ export function SignUp() {
           Criar conta
         </Button>
 
-        <Text as={Link} to="/login" fontSize="sm" color="blue.500">
+        <Text
+          as={Link}
+          to="/login"
+          fontSize="sm"
+          color="blue.500"
+          position="relative"
+          zIndex={5}
+        >
           Já tem uma conta? Faça login
         </Text>
       </Stack>

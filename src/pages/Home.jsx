@@ -12,6 +12,7 @@ import { Header } from "../components/Header";
 import { Card } from "../components/Card";
 import { Form } from "../components/Form";
 import { Link } from "react-router-dom";
+import { Background } from "../global/Background";
 
 export function Home() {
   const { dividas, sharedDividas, user } = useAuth();
