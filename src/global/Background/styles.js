@@ -13,8 +13,9 @@ export const BackgroundContainer = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  background: #0a0019;
+  background: ${props => (props.theme === "dark" ? "#1A202C" : "white")};
   overflow: hidden;
+  z-index: -1;
 }
 
 .background span {

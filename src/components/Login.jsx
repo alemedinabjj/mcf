@@ -43,7 +43,15 @@ export function Login() {
   return (
     <>
       <Background />
-      <Stack spacing={4} as="form" onSubmit={handleSubmit(handleSignIn)}>
+      <Stack
+        spacing={4}
+        as="form"
+        onSubmit={handleSubmit(handleSignIn)}
+        bg={useColorModeValue("gray.100", "gray.800")}
+        position="relative"
+        zIndex={5}
+        p={4}
+      >
         <InputGroup>
           <InputLeftAddon children="E-mail" minWidth="120px" />
           <Input type="text" placeholder="seu email" {...register("email")} />

@@ -28,13 +28,15 @@ export function Login() {
       </Box>
       <Box
         bg={useColorModeValue("gray.100", "gray.800")}
-        w="100%"
-        p={4}
-        minH="calc(100vh - 64px)"
-        color="gray.500"
         display="flex"
         alignItems="flex-start"
         justifyContent="center"
+        maxW="400px"
+        w="100%"
+        p={4}
+        opacity="0.9"
+        borderRadius="md"
+        mx="auto"
       >
         <LoginForm />
       </Box>

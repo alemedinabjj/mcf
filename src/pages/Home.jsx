@@ -32,6 +32,8 @@ export function Home() {
         display="flex"
         alignItems="flex-start"
         justifyContent="center"
+        position="relative"
+        zIndex={5}
       >
         <Flex
           as="main"
