@@ -167,6 +167,10 @@ export function Summary() {
               : "Você não tem nenhuma dívida prevista para o mês de " +
                 format(addMonths(new Date(), 1), "MMMM", { locale: ptBR })}
           </Text>
+          {/* <Text as="span" fontSize="sm" fontWeight="bold" letterSpacing="tight">
+            Com o seu salário de {formatPrice(salario)} você terá{" "}
+            {formatPrice(salario - reduceProximoMes.aPagar)} disponível
+          </Text> */}
         </Flex>
       </Grid>
     </>

@@ -1,11 +1,10 @@
 import { Button, Flex, Grid, Input, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useColorModeValue } from "@chakra-ui/react";
-import { useAuth } from "../../contexts/AuthContext";
+import { formatPrice } from "../../utils/formatPrice";
 
 export function RegisterSalary({ handleSalaryTotal }) {
   const [typeSalary, setTypeSalary] = React.useState("");
-  const { salario } = useAuth();
   const [registerSalaryHour, setRegisterSalaryHour] = React.useState({
     valueHour: "",
     hoursWorked: "",
@@ -122,13 +121,15 @@ export function RegisterSalary({ handleSalaryTotal }) {
                 }}
               />
 
-              <Text
-                as="span"
-                fontSize="sm"
-                color={useColorModeValue("gray.600", "gray.300")}
-              >
-                Seu salário é de R$ {salaryTotal || salario}
-              </Text>
+              {!!salaryTotal && (
+                <Text
+                  as="span"
+                  fontSize="sm"
+                  color={useColorModeValue("gray.600", "gray.300")}
+                >
+                  Seu salário é de {salaryTotal && formatPrice(salaryTotal)}
+                </Text>
+              )}
             </Flex>
           </>
         ) : (

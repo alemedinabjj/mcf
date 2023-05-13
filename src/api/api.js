@@ -30,11 +30,18 @@ async function signUpWithEmailAndPasswordAndName(email, senha, displayName) {
 }
 
 async function inserirUsuarioNoBancoDeDados(uid, email, displayName, photoURL) {
+
+  const getUser = await db.collection("users").doc(uid).get();
+  const user = getUser.data();
+
   try {
+    const formattedEmail = email.toLowerCase().trim();
+
     await db.collection("users").doc(uid).set({
-      email: email,
+      ...user,
+      email: formattedEmail,
       displayName: displayName,
-      photoURL: null,
+      photoURL: photoURL,
     });
     console.log("Usuário inserido no banco de dados");
   } catch (error) {
@@ -44,7 +51,9 @@ async function inserirUsuarioNoBancoDeDados(uid, email, displayName, photoURL) {
 
 async function signInWithEmailAndPassword(email, senha) {
   try {
-    const resultado = await auth.signInWithEmailAndPassword(email, senha);
+    const formattedEmail = email.toLowerCase().trim();
+
+    const resultado = await auth.signInWithEmailAndPassword(formattedEmail, senha);
     console.log(resultado);
     return resultado;
   } catch (error) {
@@ -471,28 +480,6 @@ async function insertSalary(userId, salary) {
   }
 }
 
-async function getInfoByUser(userId) {
-  try {
-    const userDoc = await db.collection("users").doc(userId).get();
-
-    if (!userDoc.exists) {
-      console.log("Usuário não encontrado");
-      return null;
-    }
-
-    const userData = userDoc.data();
-
-    console.log("Informações do usuário:", userData);
-
-    return userData;
-  } catch (error) {
-    console.error("Erro ao buscar usuário", error);
-    return null;
-  }
-}
-
-
-
 
 
 export {
@@ -510,5 +497,4 @@ export {
   getDividasSharedByUser,
   updateSharedDivida,
   insertSalary,
-  getInfoByUser
 };
