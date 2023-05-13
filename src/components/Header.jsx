@@ -22,6 +22,8 @@ export function Header() {
 
   const { user, handleLogout } = useAuth();
 
+  console.log("user", user);
+
   function submitLogout() {
     handleLogout();
   }

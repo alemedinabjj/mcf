@@ -231,72 +231,36 @@ async function updateParcela(dividaId, updatedParcela) {
   return newDivida;
 }
 
-async function updateUser(userId, file) {
+async function updateUser(userId, file, salary) {
   const userRef = db.collection("users").doc(userId);
 
   const storageRef = storage.ref().child(`users/${userId}/profilePicture.jpg`);
 
+  if (salary) {
+    insertSalary(userId, salary);
+  }
+
   try {
-    const snapshot = await storageRef.put(file);
-    const downloadURL = await snapshot.ref.getDownloadURL();
-    await userRef.set({ photoURL: downloadURL }, { merge: true });
-    console.log("Imagem do usuário atualizada com sucesso!");
-    await auth.currentUser.updateProfile({
-      photoURL: downloadURL,
-    });
-    await auth.currentUser.reload();
-    console.log("Dados do usuário atualizados com sucesso!");
+     //se tiver uma imagem, atualiza a imagem, se não deixar como está
+    if (file) {
+      const snapshot = await storageRef.put(file);
+      const downloadURL = await snapshot.ref.getDownloadURL();
+      await userRef.set({ photoURL: downloadURL }, { merge: true });
+      console.log("Imagem do usuário atualizada com sucesso!");
+      await auth.currentUser.updateProfile({
+        photoURL: downloadURL
+      });
+      await auth.currentUser.reload();
+      console.log("Dados do usuário atualizados com sucesso!");
+    } else {
+      console.log("Imagem do usuário não atualizada!");
+    }
   } catch (error) {
     console.error("Erro ao atualizar imagem do usuário:", error);
   }
 }
 
-// async function shareDivida(dividaId, email) {
-//   try {
-//     const dividaRef = db
-//       .collection("dividas")
-//       .doc(auth.currentUser.uid)
-//       .collection("userDividas")
-//       .doc(dividaId);
 
-//     const dividaDoc = await dividaRef.get();
-
-//     if (!dividaDoc.exists) {
-//       console.error("Dívida não encontrada!");
-//       return;
-//     }
-
-//     const divida = dividaDoc.data();
-
-//     const user = await db.collection("users").where("email", "==", email).get();
-
-//     if (user.empty) {
-//       console.error("Usuário não encontrado!");
-//       return;
-//     }
-
-//     const userId = user.docs[0].id;
-
-//     await db
-//       .collection("dividas")
-//       .doc(userId)
-//       .collection("sharedDividas")
-//       .doc(dividaId)
-//       .set({
-//         ...divida,
-//         sharedBy: auth.currentUser.displayName,
-//       });
-
-//     console.log(`Dívida compartilhada com sucesso com o usuário ${email}!`);
-
-//     await dividaRef.update({
-//       shared: true,
-//       sharedWith: email,
-//     });
-//   } catch (error) {
-//     console.error("Erro ao compartilhar dívida:", error);
-//   }
-// }
 
 async function shareDivida(dividaId, email) {
   try {
@@ -475,18 +439,61 @@ async function updateSharedDivida(sharedDividaId, updatedParcela) {
   }
 }
 
-//usage example updateSharedDivida
+async function insertSalary(userId, salary) {
+  try {
+    const userRef = db.collection("users").doc(userId);
 
-// const updatedParcela = {
-//   id: "1",
-//   dataVencimento: "2021-05-01",
-//   valor: 100,
-//   pago: true,
-// };
+    const userDoc = await userRef.get();
 
-// updateSharedDivida("1", updatedParcela);
+    if (!userDoc.exists) {
+      console.error("Usuário não encontrado!");
+      return;
+    }
 
-// updateSharedDivida("1", updatedParcela);
+    const user = userDoc.data();
+
+
+    if (user.salario) {
+      await userRef.update({
+        salario: salary,
+      });
+
+    } else {
+      await userRef.set({ salario: salary }, { merge: true });
+    }
+
+
+    await auth.currentUser.reload();
+
+    console.log("Salário inserido com sucesso!");
+  } catch (error) {
+    console.error("Erro ao inserir salário:", error);
+  }
+}
+
+async function getInfoByUser(userId) {
+  try {
+    const userDoc = await db.collection("users").doc(userId).get();
+
+    if (!userDoc.exists) {
+      console.log("Usuário não encontrado");
+      return null;
+    }
+
+    const userData = userDoc.data();
+
+    console.log("Informações do usuário:", userData);
+
+    return userData;
+  } catch (error) {
+    console.error("Erro ao buscar usuário", error);
+    return null;
+  }
+}
+
+
+
+
 
 export {
   signUpWithEmailAndPasswordAndName,
@@ -502,4 +509,6 @@ export {
   shareDivida,
   getDividasSharedByUser,
   updateSharedDivida,
+  insertSalary,
+  getInfoByUser
 };

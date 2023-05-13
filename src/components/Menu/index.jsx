@@ -33,19 +33,26 @@ import { updateUser } from "../../api/api";
 import { FcDataConfiguration } from "react-icons/fc";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useColorMode } from "@chakra-ui/react";
+import { RegisterSalary } from "./RegisterSalary";
 
 export function Menu() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
   const [photo, setPhoto] = React.useState(null);
   const { user } = useAuth();
-  const { register, handleSubmit, formState, setValue } = useForm({});
+  const { register, handleSubmit, formState, setValue, watch } = useForm({});
   const { colorMode, toggleColorMode } = useColorMode();
+
+  function handleSalaryTotal(salaryTotal) {
+    setValue("salaryTotal", salaryTotal);
+  }
+
+  const salaryTotal = watch("salaryTotal");
 
   function handleEditUser(data) {
     console.log(photo);
 
-    const update = updateUser(user.uid, photo);
+    const update = updateUser(user.uid, photo, salaryTotal);
 
     console.log(update);
 
@@ -126,6 +133,8 @@ export function Menu() {
                   )}
                 </FormLabel>
               </FormControl>
+
+              <RegisterSalary handleSalaryTotal={handleSalaryTotal} />
             </Stack>
           </DrawerBody>
 

@@ -4,6 +4,7 @@ import {
   deleteDivida,
   getDividasByUser,
   getDividasSharedByUser,
+  getInfoByUser,
 } from "../api/api";
 
 const AuthContext = createContext();
@@ -16,6 +17,7 @@ export function AuthProvider({ children }) {
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
+  const [salario, setSalario] = useState(0);
 
   const [dividas, setDividas] = useState([]);
 
@@ -68,10 +70,12 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (user) {
       getDividas();
+      getInfoByUser(user.uid).then((data) => {
+        console.log("data", data);
+        setSalario(data?.salario);
+      });
     }
   }, [user]);
-
-  console.log("shared", sharedDividas);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -108,6 +112,7 @@ export function AuthProvider({ children }) {
         handleDeleteTask,
         sharedDividas,
         setSharedDividas,
+        salario,
       }}
     >
       {children}
