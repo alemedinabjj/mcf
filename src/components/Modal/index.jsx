@@ -22,7 +22,6 @@ import { usePdfGenerator } from "../../hooks/usePdfGenerator";
 export function Modal({ divida }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setDividas } = useAuth();
-  console.log(divida);
 
   const generatePDF = usePdfGenerator(
     ["Parcela", "Valor", "Vencimento", "Pago"],

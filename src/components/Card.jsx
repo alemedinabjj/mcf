@@ -15,9 +15,17 @@ import { BsFillPatchCheckFill } from "react-icons/bs";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { SharedAlert } from "./Alert/SharedAlert";
 import { useAuth } from "../contexts/AuthContext";
+import { deleteDivida } from "../api/api";
+import { useReducer } from "react";
+import { dividaReducer } from "../reducers/dividaReducer";
 
 export function Card({ divida, index }) {
-  const { handleDeleteTask } = useAuth();
+  const { setDividas, getDividas, user } = useAuth();
+  const [state, dispatch] = useReducer(dividaReducer, { user, setDividas });
+
+  function handleDeleteTask(dividaId) {
+    dispatch({ type: DELETE_DIVIDA, payload: { dividaId } });
+  }
 
   const animation = keyframes`
     from {

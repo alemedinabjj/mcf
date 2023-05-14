@@ -9,16 +9,18 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import InputFloating from "./InputFloating";
-import { useCallback } from "react";
+import { useCallback, useReducer } from "react";
 import { addDivida } from "../api/api";
 import { useAuth } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { formatPrice } from "../utils/formatPrice";
+import { CREATE_DIVIDA, dividaReducer } from "../reducers/dividaReducer";
 
 export function Form({ handleCloseModal }) {
   const { user, getDividas, setDividas, dividas } = useAuth();
   const { register, handleSubmit, reset } = useForm();
+  const [state, dispatch] = useReducer(dividaReducer, { user, setDividas });
 
   const toast = useToast();
 
@@ -28,8 +30,6 @@ export function Form({ handleCloseModal }) {
   });
 
   const handleCreateTask = useCallback((data) => {
-    const userId = user?.uid;
-
     const newDivida = {
       id: Date.now(),
       name: data.name,
@@ -57,10 +57,9 @@ export function Form({ handleCloseModal }) {
       ),
     };
 
-    addDivida(userId, newDivida).then(() => {
-      getDividas().then((data) => {
-        setDividas(data);
-      });
+    dispatch({
+      type: CREATE_DIVIDA,
+      payload: { newDivida, userId: state.user?.uid },
     });
 
     toast({

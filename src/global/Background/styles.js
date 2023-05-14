@@ -19,8 +19,8 @@ export const BackgroundContainer = styled.div`
 }
 
 .background span {
-  width: 5vmin;
-  height: 5vmin;
+  width: 3vmin;
+  height: 3vmin;
   border-radius: 5vmin;
   backface-visibility: hidden;
   position: absolute;

@@ -56,7 +56,7 @@ export function Summary() {
     { pago: 0, aPagar: 0 }
   );
 
-  const valorPago = Math.abs(summary.pago);
+  const valorPago = Math.abs(summary?.pago);
 
   const reduceProximoMes = dividas?.reduce(
     (acc, divida) => {
@@ -79,8 +79,6 @@ export function Summary() {
     },
     { pago: 0, aPagar: 0 }
   );
-
-  console.log(reduceProximoMes);
 
   return (
     <>
@@ -106,11 +104,11 @@ export function Summary() {
             Faltam
           </Text>
           <Text fontSize="xl" letterSpacing="tight" color="red.500">
-            {formatPrice(summary.aPagar)}
+            {formatPrice(summary?.aPagar)}
           </Text>
           <Text>
-            {summary.aPagar
-              ? `Você tem ${formatPrice(summary.aPagar)} em dívidas esse mês`
+            {summary?.aPagar
+              ? `Você tem ${formatPrice(summary?.aPagar)} em dívidas esse mês`
               : "Você não tem nenhuma dívida esse mês"}
           </Text>
         </Flex>
@@ -133,7 +131,7 @@ export function Summary() {
             {formatPrice(valorPago)}
           </Text>
           <Text>
-            {summary.pago
+            {summary?.pago
               ? `Você pagou ${formatPrice(valorPago)} em dívidas esse mês`
               : "Você não pagou nenhuma dívida esse mês"}
           </Text>
@@ -173,12 +171,12 @@ export function Summary() {
             Está previsto
           </Text>
           <Text fontSize="xl" letterSpacing="tight" color="red.500">
-            {formatPrice(reduceProximoMes.aPagar)}
+            {formatPrice(reduceProximoMes?.aPagar)}
           </Text>
           <Text>
-            {reduceProximoMes.aPagar
+            {reduceProximoMes?.aPagar
               ? `Você tem ${formatPrice(
-                  reduceProximoMes.aPagar
+                  reduceProximoMes?.aPagar
                 )} em dívidas previstas para o mês de ${format(
                   addMonths(new Date(), 1),
                   "MMMM",

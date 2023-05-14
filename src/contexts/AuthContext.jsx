@@ -1,11 +1,9 @@
 import { useContext, createContext, useState, useEffect } from "react";
 import { auth } from "../config/firebaseConfig";
 import {
-  deleteDivida,
   getDividasByUser,
   getDividasSharedByUser,
   getInfoUserByCollection,
-  insertSalary,
 } from "../api/api";
 
 const AuthContext = createContext();
@@ -41,19 +39,6 @@ export function AuthProvider({ children }) {
     auth.signOut();
     localStorage.removeItem("user");
   }
-
-  function handleDeleteTask(dividaId) {
-    deleteDivida(user?.uid, dividaId).then(() => {
-      getDividas().then((data) => {
-        setDividas(data);
-      });
-    }),
-      console.log("dividaId", dividaId);
-  }
-
-  useEffect(() => {}, [user]);
-
-  console.log("user", infoUser);
 
   async function getDividas() {
     const allDividas = await getDividasByUser(user.uid);
@@ -107,10 +92,10 @@ export function AuthProvider({ children }) {
         getDividas,
         dividas,
         setDividas,
-        handleDeleteTask,
         sharedDividas,
         setSharedDividas,
         infoUser,
+        setDividas,
       }}
     >
       {children}
