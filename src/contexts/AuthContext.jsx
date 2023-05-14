@@ -73,7 +73,7 @@ export function AuthProvider({ children }) {
     if (user) {
       getDividas();
     }
-  }, [user, infoUser]);
+  }, [user]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
