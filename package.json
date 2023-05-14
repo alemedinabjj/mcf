@@ -19,6 +19,8 @@
     "date-fns": "^2.30.0",
     "firebase": "^9.21.0",
     "framer-motion": "^10.12.8",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.28",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",

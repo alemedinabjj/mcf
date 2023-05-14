@@ -13,19 +13,28 @@ import {
   Grid,
   useBreakpointValue,
   useColorModeValue,
-  Checkbox,
 } from "@chakra-ui/react";
 import { formatPrice } from "../../utils/formatPrice";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { useAuth } from "../../contexts/AuthContext";
-import { updateParcela } from "../../api/api";
 import { List } from "./List";
-import { useEffect } from "react";
+import { usePdfGenerator } from "../../hooks/usePdfGenerator";
 
 export function Modal({ divida }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setDividas } = useAuth();
+  console.log(divida);
+
+  const generatePDF = usePdfGenerator(
+    ["Parcela", "Valor", "Vencimento", "Pago"],
+    (data) =>
+      data.map((parcela, index) => [
+        index + 1,
+        formatPrice(parseFloat(parcela.value)),
+        parcela.date,
+        parcela.pago ? "Sim" : "Não",
+      ]),
+    `Detalhes da dívida - ${divida.name}`
+  );
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -108,6 +117,13 @@ export function Modal({ divida }) {
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Fechar
+            </Button>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={() => generatePDF(divida.arrayParcelas)}
+            >
+              Gerar PDF
             </Button>
           </ModalFooter>
         </ModalContent>
