@@ -4,6 +4,8 @@ import {
   deleteDivida,
   getDividasByUser,
   getDividasSharedByUser,
+  getInfoUserByCollection,
+  insertSalary,
 } from "../api/api";
 
 const AuthContext = createContext();
@@ -11,11 +13,8 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [sharedDividas, setSharedDividas] = useState([]);
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : null
-  );
+  const [user, setUser] = useState([]);
+  const [infoUser, setInfoUser] = useState(0);
 
   const [dividas, setDividas] = useState([]);
 
@@ -52,15 +51,20 @@ export function AuthProvider({ children }) {
       console.log("dividaId", dividaId);
   }
 
+  useEffect(() => {}, [user]);
+
+  console.log("user", infoUser);
+
   async function getDividas() {
     const allDividas = await getDividasByUser(user.uid);
     const sharedDividas = await getDividasSharedByUser(user.uid);
+    const getInfoUser = await getInfoUserByCollection(user.uid);
 
     setSharedDividas(sharedDividas);
 
     setDividas(allDividas);
 
-    console.log("allDividas", sharedDividas);
+    setInfoUser(getInfoUser);
 
     return allDividas;
   }
@@ -69,7 +73,7 @@ export function AuthProvider({ children }) {
     if (user) {
       getDividas();
     }
-  }, [user]);
+  }, [user, infoUser]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -106,6 +110,7 @@ export function AuthProvider({ children }) {
         handleDeleteTask,
         sharedDividas,
         setSharedDividas,
+        infoUser,
       }}
     >
       {children}

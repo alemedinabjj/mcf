@@ -480,6 +480,25 @@ async function insertSalary(userId, salary) {
   }
 }
 
+async function getInfoUserByCollection(userId) {
+  try {
+    const userRef = db.collection("users").doc(userId);
+
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+      console.error("Usuário não encontrado!");
+      return;
+    }
+
+    const user = userDoc.data();
+
+    return user;
+  } catch (error) {
+    console.error("Erro ao buscar usuário:", error);
+  }
+}
+
 
 
 export {
@@ -497,4 +516,5 @@ export {
   getDividasSharedByUser,
   updateSharedDivida,
   insertSalary,
+  getInfoUserByCollection
 };

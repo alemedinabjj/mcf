@@ -13,7 +13,7 @@ import { format, addMonths } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 export function Summary() {
-  const { dividas } = useAuth();
+  const { dividas, infoUser } = useAuth();
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true,
@@ -55,6 +55,8 @@ export function Summary() {
     },
     { pago: 0, aPagar: 0 }
   );
+
+  const valorPago = Math.abs(summary.pago);
 
   const reduceProximoMes = dividas?.reduce(
     (acc, divida) => {
@@ -128,13 +130,31 @@ export function Summary() {
             Pago
           </Text>
           <Text fontSize="xl" letterSpacing="tight" color="green.500">
-            {formatPrice(summary.pago)}
+            {formatPrice(valorPago)}
           </Text>
           <Text>
             {summary.pago
-              ? `Você pagou ${formatPrice(summary.pago)} em dívidas esse mês`
+              ? `Você pagou ${formatPrice(valorPago)} em dívidas esse mês`
               : "Você não pagou nenhuma dívida esse mês"}
           </Text>
+          {infoUser?.salario && (
+            <Box
+              position="absolute"
+              top="0"
+              right="0"
+              bg="green.500"
+              color="gray.100"
+              p="2"
+              borderRadius="0 0 0 8px"
+            >
+              <Text fontSize="sm" fontWeight="bold" letterSpacing="tight">
+                Seu saldo
+              </Text>
+              <Text fontSize="xl" fontWeight="bold" letterSpacing="tight">
+                {formatPrice(infoUser?.salario - valorPago)}
+              </Text>
+            </Box>
+          )}
         </Flex>
         <Flex
           flexDir="column"
@@ -167,10 +187,18 @@ export function Summary() {
               : "Você não tem nenhuma dívida prevista para o mês de " +
                 format(addMonths(new Date(), 1), "MMMM", { locale: ptBR })}
           </Text>
-          {/* <Text as="span" fontSize="sm" fontWeight="bold" letterSpacing="tight">
-            Com o seu salário de {formatPrice(salario)} você terá{" "}
-            {formatPrice(salario - reduceProximoMes.aPagar)} disponível
-          </Text> */}
+          {infoUser.salario && (
+            <Text
+              as="span"
+              fontSize="sm"
+              fontWeight="bold"
+              letterSpacing="tight"
+            >
+              Com o seu salário de {formatPrice(infoUser.salario)} você terá{" "}
+              {formatPrice(infoUser.salario - reduceProximoMes.aPagar)}{" "}
+              disponível
+            </Text>
+          )}
         </Flex>
       </Grid>
     </>
