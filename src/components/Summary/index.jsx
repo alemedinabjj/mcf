@@ -187,15 +187,15 @@ export function Summary() {
               : "Você não tem nenhuma dívida prevista para o mês de " +
                 format(addMonths(new Date(), 1), "MMMM", { locale: ptBR })}
           </Text>
-          {infoUser.salario && (
+          {infoUser?.salario && (
             <Text
               as="span"
               fontSize="sm"
               fontWeight="bold"
               letterSpacing="tight"
             >
-              Com o seu salário de {formatPrice(infoUser.salario)} você terá{" "}
-              {formatPrice(infoUser.salario - reduceProximoMes.aPagar)}{" "}
+              Com o seu salário de {formatPrice(infoUser?.salario)} você terá{" "}
+              {formatPrice(infoUser?.salario - reduceProximoMes.aPagar)}{" "}
               disponível
             </Text>
           )}
