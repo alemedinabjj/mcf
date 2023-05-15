@@ -30,20 +30,21 @@ async function signUpWithEmailAndPasswordAndName(email, senha, displayName) {
 }
 
 async function inserirUsuarioNoBancoDeDados(uid, email, displayName, photoURL) {
-
   const getUser = await db.collection("users").doc(uid).get();
   const user = getUser.data();
 
   try {
     const formattedEmail = email.toLowerCase().trim();
 
-    await db.collection("users").doc(uid).set({
-      ...user,
-      email: formattedEmail,
-      displayName: displayName,
-      photoURL: photoURL,
-    });
-    console.log("Usuário inserido no banco de dados");
+    await db
+      .collection("users")
+      .doc(uid)
+      .set({
+        ...user,
+        email: formattedEmail,
+        displayName: displayName,
+        photoURL: photoURL,
+      });
   } catch (error) {
     console.error(error);
   }
@@ -53,8 +54,10 @@ async function signInWithEmailAndPassword(email, senha) {
   try {
     const formattedEmail = email.toLowerCase().trim();
 
-    const resultado = await auth.signInWithEmailAndPassword(formattedEmail, senha);
-    console.log(resultado);
+    const resultado = await auth.signInWithEmailAndPassword(
+      formattedEmail,
+      senha
+    );
     return resultado;
   } catch (error) {
     console.error(error);
@@ -65,7 +68,6 @@ async function signInWithEmailAndPassword(email, senha) {
 async function signInWithGoogle() {
   try {
     const resultado = await auth.signInWithPopup(googleAuthProvider);
-    console.log(resultado);
     await inserirUsuarioNoBancoDeDados(
       resultado.user.uid,
       resultado.user.email,
@@ -82,7 +84,6 @@ async function signInWithGoogle() {
 async function signInWithGithub() {
   try {
     const resultado = await auth.signInWithPopup(githubAuthProvider);
-    console.log(resultado);
     await inserirUsuarioNoBancoDeDados(
       resultado.user.uid,
       resultado.user.email,
@@ -99,7 +100,6 @@ async function signInWithGithub() {
 async function logout() {
   try {
     const resultado = await auth.signOut();
-    console.log(resultado);
     return resultado;
   } catch (error) {
     console.error(error);
@@ -125,11 +125,7 @@ async function addDivida(userId, newDivida) {
       arrayParcelas: newParcelas,
     };
 
-    console.log("newDividaFirebase:", newDividaFirebase);
-
     await dividaRef.set(newDividaFirebase);
-
-    console.log("Nova dívida adicionada com sucesso!");
   } catch (error) {
     console.error("Erro ao adicionar nova dívida:", error);
   }
@@ -143,7 +139,6 @@ async function getDividasByUser(userId) {
       .collection("userDividas");
     const querySnapshot = await userDividasRef.get();
 
-    console.log("querySnapshot:", querySnapshot);
     const dividas = [];
 
     querySnapshot.forEach((doc) => {
@@ -152,8 +147,6 @@ async function getDividasByUser(userId) {
         ...doc.data(),
       });
     });
-
-    console.log("Dívidas do usuário:", dividas);
 
     return dividas;
   } catch (error) {
@@ -179,14 +172,12 @@ async function deleteDivida(userId, dividaId) {
     sharedQuerySnapshot.forEach((doc) => {
       if (doc.id === dividaId) {
         doc.ref.delete();
-        console.log("Dívida compartilhada deletada com sucesso!");
       }
     });
 
     querySnapshot.forEach((doc) => {
       if (doc.id === dividaId) {
         doc.ref.delete();
-        console.log("Dívida deletada com sucesso!");
       }
     });
   } catch (error) {
@@ -205,8 +196,6 @@ async function updateParcela(dividaId, updatedParcela) {
     const dividaDoc = await dividaRef.get();
 
     const divida = dividaDoc.data();
-
-    console.log("divida:", divida);
 
     const parcelas = divida.arrayParcelas.map((parcela) => {
       if (parcela.id === updatedParcela.id) {
@@ -233,8 +222,6 @@ async function updateParcela(dividaId, updatedParcela) {
     console.error("Erro ao atualizar parcela:", error);
   }
 
-  console.log("Parcela atualizada com sucesso!");
-
   const newDividaDoc = await dividaRef.get();
   const newDivida = newDividaDoc.data();
   return newDivida;
@@ -250,17 +237,15 @@ async function updateUser(userId, file, salary) {
   }
 
   try {
-     //se tiver uma imagem, atualiza a imagem, se não deixar como está
+    //se tiver uma imagem, atualiza a imagem, se não deixar como está
     if (file) {
       const snapshot = await storageRef.put(file);
       const downloadURL = await snapshot.ref.getDownloadURL();
       await userRef.set({ photoURL: downloadURL }, { merge: true });
-      console.log("Imagem do usuário atualizada com sucesso!");
       await auth.currentUser.updateProfile({
-        photoURL: downloadURL
+        photoURL: downloadURL,
       });
       await auth.currentUser.reload();
-      console.log("Dados do usuário atualizados com sucesso!");
     } else {
       console.log("Imagem do usuário não atualizada!");
     }
@@ -268,8 +253,6 @@ async function updateUser(userId, file, salary) {
     console.error("Erro ao atualizar imagem do usuário:", error);
   }
 }
-
-
 
 async function shareDivida(dividaId, email) {
   try {
@@ -310,8 +293,6 @@ async function shareDivida(dividaId, email) {
         sharedBy: auth.currentUser.displayName,
       });
 
-    console.log(`Dívida compartilhada com sucesso com o usuário ${email}!`);
-
     await dividaRef.update({
       ...divida,
       shared: true,
@@ -343,8 +324,6 @@ async function getDividasSharedByUser(userId) {
       });
     });
 
-    console.log("Dívidas compartilhadas com o usuário:", dividas);
-
     return dividas;
   } catch (error) {
     console.error(
@@ -373,7 +352,6 @@ async function updateSharedDivida(sharedDividaId, updatedParcela) {
 
     const parcelas = sharedDivida.arrayParcelas.map((parcela) => {
       if (parcela.id === updatedParcela.id) {
-        console.log("Parcela encontrada!,", updatedParcela);
         return updatedParcela;
       } else {
         return parcela;
@@ -393,8 +371,6 @@ async function updateSharedDivida(sharedDividaId, updatedParcela) {
         pago: false,
       });
     }
-
-    console.log("Divida compartilhada atualizada com sucesso!");
 
     // Atualiza a cópia da divida do usuário com quem a divida foi compartilhada
     const dividaCompartilhadaRef = db
@@ -461,16 +437,13 @@ async function insertSalary(userId, salary) {
 
     const user = userDoc.data();
 
-
     if (user.salario) {
       await userRef.update({
         salario: salary,
       });
-
     } else {
       await userRef.set({ salario: salary }, { merge: true });
     }
-
 
     await auth.currentUser.reload();
 
@@ -499,8 +472,6 @@ async function getInfoUserByCollection(userId) {
   }
 }
 
-
-
 export {
   signUpWithEmailAndPasswordAndName,
   signInWithEmailAndPassword,
@@ -516,5 +487,5 @@ export {
   getDividasSharedByUser,
   updateSharedDivida,
   insertSalary,
-  getInfoUserByCollection
+  getInfoUserByCollection,
 };

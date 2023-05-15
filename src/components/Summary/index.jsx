@@ -80,8 +80,6 @@ export function Summary() {
     { pago: 0, aPagar: 0 }
   );
 
-  console.log(reduceProximoMes);
-
   return (
     <>
       <Grid
