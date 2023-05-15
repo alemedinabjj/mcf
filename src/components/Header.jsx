@@ -51,15 +51,10 @@ export function Header() {
               </WrapItem>
             </Wrap>
             <Flex flexDir="column">
-              <Text
-                fontSize="xl"
-                fontWeight="bold"
-                letterSpacing="tight"
-                w="64"
-              >
+              <Text fontSize="xl" fontWeight="bold" letterSpacing="tight">
                 Olá, {user?.displayName}
               </Text>
-              <Text as="span" fontSize="sm" letterSpacing="tight" w="64">
+              <Text as="span" fontSize="sm" letterSpacing="tight">
                 Seja bem vindo!
               </Text>
             </Flex>
