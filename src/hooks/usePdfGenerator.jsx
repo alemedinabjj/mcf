@@ -1,4 +1,5 @@
 import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export const usePdfGenerator = (headData, mapBodyData, textSave) => {
   const generatePDF = (data) => {

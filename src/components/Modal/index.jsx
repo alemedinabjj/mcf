@@ -121,7 +121,7 @@ export function Modal({ divida }) {
             <Button
               colorScheme="blue"
               mr={3}
-              onClick={() => generatePDF(divida.arrayParcelas)}
+              onClick={() => generatePDF(divida?.arrayParcelas)}
             >
               Gerar PDF
             </Button>
