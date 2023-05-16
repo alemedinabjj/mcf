@@ -78,16 +78,8 @@ export function AuthProvider({ children }) {
       await updateUser(user.uid, null, null, data.username);
     }
 
-    setUserUpdate(true);
+    await getDividas();
   }
-
-  useEffect(() => {
-    if (user) {
-      getDividas();
-    }
-
-    setUserUpdate(false);
-  }, [user]);
 
   useEffect(() => {
     if (user) {
