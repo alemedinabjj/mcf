@@ -227,13 +227,30 @@ async function updateParcela(dividaId, updatedParcela) {
   return newDivida;
 }
 
-async function updateUser(userId, file, salary) {
+async function changeUsername(userId, newUsername) {
+  try {
+    const userRef = db.collection("users").doc(userId);
+    await userRef.update({ displayName: newUsername });
+    await auth.currentUser.updateProfile({
+      displayName: newUsername,
+    });
+    await auth.currentUser.reload();
+  } catch (error) {
+    console.error("Erro ao atualizar nome do usuário:", error);
+  }
+}
+
+async function updateUser(userId, file, salary, userName) {
   const userRef = db.collection("users").doc(userId);
 
   const storageRef = storage.ref().child(`users/${userId}/profilePicture.jpg`);
 
   if (salary) {
     insertSalary(userId, salary);
+  }
+
+  if (userName) {
+    changeUsername(userId, userName);
   }
 
   try {

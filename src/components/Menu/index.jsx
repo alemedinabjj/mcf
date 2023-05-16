@@ -52,6 +52,10 @@ export function Menu() {
   async function handleEditUser(data) {
     await updateUser(user.uid, photo, salaryTotal);
 
+    if (data.username) {
+      await updateUser(user.uid, null, null, data.username);
+    }
+
     onClose();
   }
 
