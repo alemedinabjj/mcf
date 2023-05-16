@@ -66,6 +66,8 @@ export function AuthProvider({ children }) {
 
     setUserUpdate(true);
 
+    console.log("loops ?");
+
     return allDividas;
   }
 
@@ -80,12 +82,12 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    if (userUpdate) {
+    if (user) {
       getDividas();
     }
 
     setUserUpdate(false);
-  }, [userUpdate]);
+  }, [user]);
 
   useEffect(() => {
     if (user) {
