@@ -6,6 +6,7 @@ import {
   getDividasSharedByUser,
   getInfoUserByCollection,
   insertSalary,
+  updateUser,
 } from "../api/api";
 
 const AuthContext = createContext();
@@ -15,6 +16,7 @@ export function AuthProvider({ children }) {
   const [sharedDividas, setSharedDividas] = useState([]);
   const [user, setUser] = useState([]);
   const [infoUser, setInfoUser] = useState(0);
+  const [userUpdate, setUserUpdate] = useState(false);
 
   const [dividas, setDividas] = useState([]);
 
@@ -62,8 +64,28 @@ export function AuthProvider({ children }) {
 
     setInfoUser(getInfoUser);
 
+    setUserUpdate(true);
+
     return allDividas;
   }
+
+  async function handleEditUser(data, photo, salaryTotal) {
+    await updateUser(user.uid, photo, salaryTotal);
+
+    if (data.username) {
+      await updateUser(user.uid, null, null, data.username);
+    }
+
+    setUserUpdate(true);
+  }
+
+  useEffect(() => {
+    if (userUpdate) {
+      getDividas();
+    }
+
+    setUserUpdate(false);
+  }, [userUpdate]);
 
   useEffect(() => {
     if (user) {
@@ -107,6 +129,7 @@ export function AuthProvider({ children }) {
         sharedDividas,
         setSharedDividas,
         infoUser,
+        handleEditUser,
       }}
     >
       {children}

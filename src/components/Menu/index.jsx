@@ -27,9 +27,6 @@ import {
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { updateUser } from "../../api/api";
 import { FcDataConfiguration } from "react-icons/fc";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useColorMode } from "@chakra-ui/react";
@@ -39,7 +36,7 @@ export function Menu() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
   const [photo, setPhoto] = React.useState(null);
-  const { user } = useAuth();
+  const { user, handleEditUser } = useAuth();
   const { register, handleSubmit, formState, setValue, watch } = useForm({});
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -49,13 +46,8 @@ export function Menu() {
 
   const salaryTotal = watch("salaryTotal");
 
-  async function handleEditUser(data) {
-    await updateUser(user.uid, photo, salaryTotal);
-
-    if (data.username) {
-      await updateUser(user.uid, null, null, data.username);
-    }
-
+  async function editUser(data) {
+    await handleEditUser(data, photo, salaryTotal);
     onClose();
   }
 
@@ -148,7 +140,7 @@ export function Menu() {
             <Button
               colorScheme="blue"
               isLoading={formState.isSubmitting}
-              onClick={handleSubmit(handleEditUser)}
+              onClick={handleSubmit(editUser)}
             >
               Confirmar
             </Button>
