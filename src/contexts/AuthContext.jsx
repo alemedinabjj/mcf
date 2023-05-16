@@ -5,7 +5,6 @@ import {
   getDividasByUser,
   getDividasSharedByUser,
   getInfoUserByCollection,
-  insertSalary,
   updateUser,
 } from "../api/api";
 
