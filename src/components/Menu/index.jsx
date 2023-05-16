@@ -49,12 +49,8 @@ export function Menu() {
 
   const salaryTotal = watch("salaryTotal");
 
-  function handleEditUser(data) {
-    console.log(photo);
-
-    const update = updateUser(user.uid, photo, salaryTotal);
-
-    console.log(update);
+  async function handleEditUser(data) {
+    await updateUser(user.uid, photo, salaryTotal);
 
     onClose();
   }
@@ -110,7 +106,10 @@ export function Menu() {
                     </label>
                   </InputGroup>
                 </Box>
-                <Avatar name={user?.displayName} src={user?.photoURL} />
+                <Avatar
+                  name={user?.displayName}
+                  src={photo ? URL.createObjectURL(photo) : user?.photoURL}
+                />
               </Flex>
               <FormControl display="flex" alignItems="center">
                 <FormLabel

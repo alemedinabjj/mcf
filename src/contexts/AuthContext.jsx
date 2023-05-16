@@ -51,10 +51,6 @@ export function AuthProvider({ children }) {
       console.log("dividaId", dividaId);
   }
 
-  useEffect(() => {}, [user]);
-
-  console.log("user", infoUser);
-
   async function getDividas() {
     const allDividas = await getDividasByUser(user.uid);
     const sharedDividas = await getDividasSharedByUser(user.uid);
